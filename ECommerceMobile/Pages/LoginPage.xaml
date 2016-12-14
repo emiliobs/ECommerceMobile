@@ -6,11 +6,11 @@
               BackgroundColor="{StaticResource BackgroundColor}"
              BindingContext="{Binding Main, Source={StaticResource Locator}}">
 
-    <StackLayout  Padding="10" Spacing="20">
+    <StackLayout  Padding="10" Spacing="20" BindingContext="{Binding NewLogin}">
 
         <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
 
-            <Label Text="E-Commerce"
+            <Label Text="Login."
                TextColor="{StaticResource AccentColor1 }"
                FontSize="24"
                FontAttributes="Bold"
@@ -34,12 +34,12 @@
         <Entry Placeholder="Usuario"
                Keyboard="Email"
                TextColor="{StaticResource FontColor}"
-               >
+               Text="{Binding User, Mode=TwoWay}" >
         </Entry>
         <Entry IsPassword="True"
                Placeholder="Contraseña"
                TextColor="{StaticResource FontColor}"
-               >
+               Text="{Binding Password, Mode=TwoWay}">
         </Entry>
 
         <Button
@@ -47,7 +47,7 @@
              Text="Ingresar."
              HorizontalOptions="Center"
              VerticalOptions="Center"
-             >
+             Command="{Binding LoginCommand}">
 
         </Button>
 
@@ -63,7 +63,7 @@
 
             <Switch HorizontalOptions="Center"
                     VerticalOptions="Center"
-                    IsToggled="True">
+                    IsToggled="{Binding IsRemembered, Mode=TwoWay}">
 
             </Switch>
 

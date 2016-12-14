@@ -12,6 +12,8 @@ namespace ECommerceMobile.ViewModel
         #region Properties
         public ObservableCollection<MenuItemViewModel> Menu { get; set; }
 
+        public LoginViewModel NewLogin { get; set; }
+
 
         #endregion
 
@@ -19,6 +21,10 @@ namespace ECommerceMobile.ViewModel
         public MainViewModel()
         {
             Menu = new ObservableCollection<MenuItemViewModel>();
+
+            //Solo neceisto el login solo al entrar al servicio:
+            NewLogin = new LoginViewModel();
+
 
             LoadMenu();
         }

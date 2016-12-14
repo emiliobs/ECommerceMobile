@@ -9,6 +9,7 @@ namespace ECommerceMobile.Service
 {
     public class NavigationService
     {
+        #region Methods
         public async Task Navigate(string pageName)
         {
             //Para el cirre de la ventana lateral despues del click:
@@ -43,5 +44,11 @@ namespace ECommerceMobile.Service
 
             }
         }
+
+        public void SetMainPage()
+        {
+            App.Current.MainPage = new MasterPage();
+        }
+        #endregion
     }
 }

@@ -1,5 +1,83 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ECommerceMobile.Pages.LoginPage">
+             x:Class="ECommerceMobile.Pages.LoginPage"
+              Title="E-Commerce.."
+              BackgroundColor="{StaticResource BackgroundColor}"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}">
+
+    <StackLayout  Padding="10" Spacing="20">
+
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+
+            <Label Text="E-Commerce"
+               TextColor="{StaticResource AccentColor1 }"
+               FontSize="24"
+               FontAttributes="Bold"
+               HorizontalOptions="Center"
+               VerticalOptions="Center">
+            </Label>
+
+            <Image Source="login.png"
+               WidthRequest="80"
+               HeightRequest="80"
+               HorizontalOptions="Center"
+               VerticalOptions="Center">
+            </Image>
+
+        </StackLayout>
+
+        <BoxView HeightRequest="3"
+                 Color="{StaticResource AccentColor1}">
+        </BoxView>
+
+        <Entry Placeholder="Usuario"
+               Keyboard="Email"
+               TextColor="{StaticResource FontColor}"
+               >
+        </Entry>
+        <Entry IsPassword="True"
+               Placeholder="Contraseña"
+               TextColor="{StaticResource FontColor}"
+               >
+        </Entry>
+
+        <Button
+                TextColor="{StaticResource AccentColor1}"
+             Text="Ingresar."
+             HorizontalOptions="Center"
+             VerticalOptions="Center"
+             >
+
+        </Button>
+
+        <StackLayout Orientation="Horizontal"  HorizontalOptions="Center">
+
+            <Label Text="Recuerdame"
+                   FontSize="20"
+                   FontAttributes="Bold"
+                   TextColor="{StaticResource AccentColor1}"
+                HorizontalOptions="Center"
+              VerticalOptions="Center">
+            </Label>
+
+            <Switch HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    IsToggled="True">
+
+            </Switch>
+
+        </StackLayout>
+
+        <ActivityIndicator IsRunning="True"></ActivityIndicator>
+
+        <Label Text="¿Has olvidado tu Contraseña?"
+                  FontSize="20"
+               FontAttributes="Bold"
+                   TextColor="{StaticResource AccentColor1}"
+                HorizontalOptions="Center"
+              VerticalOptions="Center">
+        </Label>
+    </StackLayout>
+
 </ContentPage>

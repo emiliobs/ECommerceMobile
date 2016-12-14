@@ -21,7 +21,7 @@ namespace ECommerceMobile
         {
             InitializeComponent();
 
-            MainPage = new  MasterPage();
+            MainPage = new LoginPage();
         }
         #endregion
 

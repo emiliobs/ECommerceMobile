@@ -32,7 +32,7 @@ namespace ECommerceMobile.ViewModel
         {
             Menu.Add(new MenuItemViewModel()
             {
-                 Icon = "ic_action_product.png",
+                 Icon = "products.png",
                 PageName = "ProductsPage",
                 Title = "Productos."
             });
@@ -40,7 +40,7 @@ namespace ECommerceMobile.ViewModel
             Menu.Add(new MenuItemViewModel
             {
 
-                Icon = "ic_action_action_account_child.png",
+                Icon = "customer.png",
                 PageName = "CustomersPage",
                 Title = "Clientes."
             });
@@ -48,7 +48,7 @@ namespace ECommerceMobile.ViewModel
             Menu.Add(new MenuItemViewModel
             {
 
-                Icon = "ic_action_orders.png",
+                Icon = "orders.png",
                 PageName = "OrdersPage",
                 Title = "Pedidos."
             });
@@ -56,7 +56,7 @@ namespace ECommerceMobile.ViewModel
             Menu.Add(new MenuItemViewModel
             {
 
-                Icon = "ic_action_delivery.png",
+                Icon = "delivery.png",
                 PageName = "DeliveriesPage",
                 Title = "Entregas."
             });
@@ -64,7 +64,7 @@ namespace ECommerceMobile.ViewModel
             Menu.Add(new MenuItemViewModel
             {
 
-                Icon = "ic_action_async.png",
+                Icon = "sync.png",
                 PageName = "SyncPage",
                 Title = "Sincronizar."
             });
@@ -72,7 +72,7 @@ namespace ECommerceMobile.ViewModel
             Menu.Add(new MenuItemViewModel
             {
 
-                Icon = "ic_action_setup.png",
+                Icon = "setup.png",
                 PageName = "SetupPage",
                 Title = "Configuración."
             });
@@ -80,7 +80,7 @@ namespace ECommerceMobile.ViewModel
             Menu.Add(new MenuItemViewModel
             {
 
-                Icon = "ic_action_exit.png",
+                Icon = "exit.png",
                 PageName = "LogOut",
                 Title = "Salir."
             });

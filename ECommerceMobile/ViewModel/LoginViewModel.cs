@@ -11,7 +11,10 @@ namespace ECommerceMobile.ViewModel
         #region Atttributes
 
         private NavigationService navigationService;
+
         private DialogService dialogService;
+
+        private ApiService apiService;
 
         #endregion
 
@@ -33,6 +36,7 @@ namespace ECommerceMobile.ViewModel
 
             dialogService = new Service.DialogService();
 
+            apiService = new ApiService();
 
             IsRemembered = true;
         }
@@ -69,6 +73,18 @@ namespace ECommerceMobile.ViewModel
             if (string.IsNullOrEmpty(Password))
             {
                 await dialogService.ShowMessage("Error", "Debes ingresar una Contraseña.");
+
+                return;
+            }
+
+
+            //Aqui ya consumo el servicio:
+            var response = await apiService.Login(User, Password);
+
+            //pregusnto si fuanciona, y si no funciona lo dejo en el loninPage, y si funciona pasa al masterpage:
+            if (!response.IsSuccess)
+            {
+                await dialogService.ShowMessage("Error", response.Message);
 
                 return;
             }

@@ -2,19 +2,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using ECommerceMobile.Pages;
 using Xamarin.Forms;
 
 namespace ECommerceMobile
 {
     public partial class App : Application
     {
+
+        #region Properties
+        public static NavigationPage Navigator { get; set; }
+        public static MasterPage Master { get; set; }
+
+        #endregion
+
+        #region Constructor
         public App()
         {
             InitializeComponent();
 
-            MainPage = new ECommerceMobile.MainPage();
+            MainPage = new  MasterPage();
         }
+        #endregion
+
+
 
         protected override void OnStart()
         {

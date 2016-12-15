@@ -26,6 +26,7 @@ namespace ECommerceMobile.Service
         #endregion
 
         #region Methods
+
         public async Task Navigate(string pageName)
         {
             //Para el cirre de la ventana lateral despues del click:
@@ -83,6 +84,14 @@ namespace ECommerceMobile.Service
 
             App.Current.MainPage = new MasterPage();
         }
+
+        public User GetCurrentUser()
+        {
+            return App.CurrentUser;
+        }
+
         #endregion
+
+
     }
 }

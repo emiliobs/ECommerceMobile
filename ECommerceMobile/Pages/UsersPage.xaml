@@ -3,8 +3,28 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ECommerceMobile.Pages.UsersPage"
              Title="E-Commerce."
-             BackgroundColor="{StaticResource MainColor}">
+             BackgroundColor="{StaticResource MainColor}"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}">
 
-     <Label Text="Users Page." TextColor="{StaticResource MenuFontColor}"
-            HorizontalOptions="Center" VerticalOptions="Center"></Label>
+    <StackLayout BindingContext="{Binding UserLoged}" VerticalOptions="CenterAndExpand" Spacing="10" Padding="8">
+
+        <Label Text="Bienvenid@"
+                TextColor="{StaticResource AccentColor1}"
+               FontSize="20"
+                HorizontalOptions="Center"
+               VerticalOptions="Center">
+
+        </Label>
+
+        <Label Text="{Binding FullName}"
+                TextColor="{StaticResource MenuFontColor}"
+               FontSize="19"
+                HorizontalOptions="Center"
+               VerticalOptions="Center">
+
+        </Label>
+
+    </StackLayout>
+
+
 </ContentPage>

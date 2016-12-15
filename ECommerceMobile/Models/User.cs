@@ -35,6 +35,12 @@ namespace ECommerceMobile.Models
 
         public string Password { get; set; }
 
+
+        public string FullName
+        {
+            get { return $"{ FirstName } { LastName }"; }
+        }
+
         public override int GetHashCode()
         {
             return UserId;

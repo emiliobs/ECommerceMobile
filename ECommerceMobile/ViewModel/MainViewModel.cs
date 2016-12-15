@@ -87,8 +87,8 @@ namespace ECommerceMobile.ViewModel
             {
 
                 Icon = "exit.png",
-                PageName = "LogOut",
-                Title = "Salir."
+                PageName = "LogOutPape",
+                Title = "Cerrar Sesión."
             });
 
         }

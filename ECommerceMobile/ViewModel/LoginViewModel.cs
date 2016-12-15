@@ -131,7 +131,7 @@ namespace ECommerceMobile.ViewModel
 
 
             //Metodo setMainPage para cambiar al pagina principa despues del login:
-            navigationService.SetMainPage();
+            navigationService.SetMainPage(user);
         }
 
         #endregion

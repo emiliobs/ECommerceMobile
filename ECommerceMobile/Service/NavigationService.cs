@@ -3,12 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECommerceMobile.Models;
 using ECommerceMobile.Pages;
 
 namespace ECommerceMobile.Service
 {
     public class NavigationService
     {
+
+        #region MyRegion
+
+        private DataService dataService;
+        #endregion
+
+
+        #region Constructor
+
+        public NavigationService()
+        {
+            dataService = new DataService();
+        }
+        #endregion
+
         #region Methods
         public async Task Navigate(string pageName)
         {
@@ -38,15 +54,33 @@ namespace ECommerceMobile.Service
                 case "UsersPage":
                     await App.Navigator.PushAsync(new UsersPage());
                     break;
-
+                case "LogOutPape":
+                    LogOut();
+                    break;
                 default:
                     break;
 
             }
         }
 
-        public void SetMainPage()
+        private void LogOut()
         {
+            App.CurrentUser.IsRemembered = false;
+
+            //aqui actualizo el suario:
+            dataService.UpdateUser(App.CurrentUser);
+
+            //aqui cuando ingrese a la aplicación lo envía al loginPaige:
+            App.Current.MainPage = new LoginPage();
+
+        }
+
+        public void SetMainPage(User user)
+        {
+
+            //Aqui le envio todos los usuarios a la clase principal App.cs:
+            App.CurrentUser = user;
+
             App.Current.MainPage = new MasterPage();
         }
         #endregion

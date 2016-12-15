@@ -1,4 +1,5 @@
-﻿using ECommerceMobile.Pages;
+﻿using ECommerceMobile.Models;
+using ECommerceMobile.Pages;
 using ECommerceMobile.Service;
 using Xamarin.Forms;
 
@@ -15,6 +16,8 @@ namespace ECommerceMobile
         #region Properties
         public static NavigationPage Navigator { get; set; }
         public static MasterPage Master { get; set; }
+        public static User CurrentUser
+        { get; set; }
 
         #endregion
 
@@ -31,6 +34,10 @@ namespace ECommerceMobile
             //aqui pregunto si el user esta con recuerdo(en bd)
             if (user != null && user.IsRemembered)
             {
+                //aqui cuando se haga el login con remembered le digo al currentUser el userio:
+                //cuando me deslogue, saber cual es usuario a desloguiar:
+                App.CurrentUser = user;
+
                 MainPage = new MasterPage();
             }
             else

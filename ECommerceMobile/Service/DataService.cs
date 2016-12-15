@@ -14,6 +14,36 @@ namespace ECommerceMobile.Service
 
         #region Methods
 
+
+        //aqui actualizo el usuario en la bd:
+        public Response UpdateUser(User user)
+        {
+            try
+            {
+                using (var da = new DataAccess())
+                {
+                    da.Update(user);
+                }
+
+                return new Response()
+                {
+                    IsSuccess = true,
+                    Message = "Usuario Insertado, OK",
+                    Result = user
+                };
+            }
+            catch (Exception ex)
+            {
+
+
+                return  new Response()
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
         //Metodo que nos deviulve el usario:
         public User GetUser()
         {

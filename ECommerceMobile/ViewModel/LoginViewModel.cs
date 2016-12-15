@@ -1,11 +1,12 @@
-﻿using System.Windows.Input;
+﻿using System.ComponentModel;
+using System.Windows.Input;
 using ECommerceMobile.Service;
 using GalaSoft.MvvmLight.Command;
 using Xamarin.Forms;
 
 namespace ECommerceMobile.ViewModel
 {
-    public class LoginViewModel
+    public class LoginViewModel : INotifyPropertyChanged
     {
 
         #region Atttributes
@@ -15,6 +16,8 @@ namespace ECommerceMobile.ViewModel
         private DialogService dialogService;
 
         private ApiService apiService;
+
+        private bool isRunning;
 
         #endregion
 
@@ -26,10 +29,23 @@ namespace ECommerceMobile.ViewModel
 
         public bool IsRemembered { get; set; }
 
-        //public bool IsRunning
-        //{
-        //    get { throw new System.NotImplementedException(); }
-        //}
+        public bool IsRunning
+        {
+            set
+            {
+                if (isRunning != value)
+                {
+                    isRunning = value;
+
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsRunning"));
+                }
+            }
+
+
+            get { return isRunning; }
+
+
+        }
 
         #endregion
 
@@ -84,7 +100,10 @@ namespace ECommerceMobile.ViewModel
 
 
             //Aqui ya consumo el servicio:
+            IsRunning = true;
             var response = await apiService.Login(User, Password);
+            IsRunning = false;
+
 
             //pregusnto si fuanciona, y si no funciona lo dejo en el loninPage, y si funciona pasa al masterpage:
             if (!response.IsSuccess)
@@ -98,6 +117,11 @@ namespace ECommerceMobile.ViewModel
             navigationService.SetMainPage();
         }
 
+        #endregion
+
+        #region Event
+        //se utiliza para decirle al activateIndicator si es false o true:(cuando cambia la propiedad)
+         public event PropertyChangedEventHandler PropertyChanged;
         #endregion
 
 

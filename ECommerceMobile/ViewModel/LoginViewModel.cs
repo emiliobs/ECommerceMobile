@@ -26,6 +26,11 @@ namespace ECommerceMobile.ViewModel
 
         public bool IsRemembered { get; set; }
 
+        //public bool IsRunning
+        //{
+        //    get { throw new System.NotImplementedException(); }
+        //}
+
         #endregion
 
         #region Constructor

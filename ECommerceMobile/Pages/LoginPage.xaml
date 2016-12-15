@@ -71,6 +71,8 @@
 
         <ActivityIndicator IsRunning="True"></ActivityIndicator>
 
+        <!--<ActivityIndicator IsRunning="{Binding IsRunning}"></ActivityIndicator>-->
+
         <Label Text="¿Has olvidado tu Contraseña?"
                   FontSize="20"
                FontAttributes="Bold"

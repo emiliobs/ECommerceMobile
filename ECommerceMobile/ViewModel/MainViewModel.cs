@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECommerceMobile.Models;
 using ECommerceMobile.Service;
 
 namespace ECommerceMobile.ViewModel
@@ -63,6 +64,9 @@ namespace ECommerceMobile.ViewModel
             ////aqui copio el user de la api(fullname properti de la clase User)
             ////y lo puedo bindiar desde userPage.xaml
             UserLoged.FullName = user.FullName;
+
+            //para consumir la foto y bindiarla en el userpage:
+            UserLoged.Photo = user.PhotoFullPath;
 
 
         }

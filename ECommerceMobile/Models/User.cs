@@ -41,6 +41,11 @@ namespace ECommerceMobile.Models
             get { return $"{ FirstName } { LastName }"; }
         }
 
+        public string PhotoFullPath
+        {
+            get { return $@"http://zulu-software.com/ECommerce{Photo.Substring(1)}"; }
+        }
+
         public override int GetHashCode()
         {
             return UserId;

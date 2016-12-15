@@ -8,6 +8,10 @@
 
     <StackLayout BindingContext="{Binding UserLoged}" VerticalOptions="CenterAndExpand" Spacing="10" Padding="8">
 
+        <Image Source="{Binding Photo}" HeightRequest="300" WidthRequest="300"></Image>
+
+        <BoxView HeightRequest="3" BackgroundColor="{StaticResource AccentColor1}"></BoxView>
+
         <Label Text="Bienvenid@"
                 TextColor="{StaticResource AccentColor1}"
                FontSize="20"

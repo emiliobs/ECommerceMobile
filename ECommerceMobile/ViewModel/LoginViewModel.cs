@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Windows.Input;
+using ECommerceMobile.Models;
 using ECommerceMobile.Service;
 using GalaSoft.MvvmLight.Command;
 using Xamarin.Forms;
@@ -9,13 +10,15 @@ namespace ECommerceMobile.ViewModel
     public class LoginViewModel : INotifyPropertyChanged
     {
 
-        #region Atttributes
+        #region Attributes
 
         private NavigationService navigationService;
 
         private DialogService dialogService;
 
         private ApiService apiService;
+
+        private DataService dataService;
 
         private bool isRunning;
 
@@ -58,6 +61,8 @@ namespace ECommerceMobile.ViewModel
             dialogService = new Service.DialogService();
 
             apiService = new ApiService();
+
+            dataService = new DataService();
 
             IsRemembered = true;
         }
@@ -112,6 +117,18 @@ namespace ECommerceMobile.ViewModel
 
                 return;
             }
+
+            //aqui guardo la respuesta del api:
+            var user = (User) response.Result;
+
+            //aqui guardo los datos aplicados en la pagina(form)
+            user.IsRemembered = IsRemembered;
+            user.Password = Password;
+
+
+            //y si toda va bien,guardo los datos en bd:
+            dataService.InsertUser(user);
+
 
             //Metodo setMainPage para cambiar al pagina principa despues del login:
             navigationService.SetMainPage();

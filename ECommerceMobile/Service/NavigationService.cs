@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ECommerceMobile.Models;
 using ECommerceMobile.Pages;
+using ECommerceMobile.ViewModel;
 
 namespace ECommerceMobile.Service
 {
@@ -78,6 +79,13 @@ namespace ECommerceMobile.Service
 
         public void SetMainPage(User user)
         {
+
+            //aqui consumo el sigleton de MainViewMOdel(lapropiedady el metodo sin instancia la clase)
+            //tomo la propiedad
+            var mainViewModel = MainViewModel.GetInstance();
+
+            //aqui tomo el método:
+            mainViewModel.LoadUser(user);
 
             //Aqui le envio todos los usuarios a la clase principal App.cs:
             App.CurrentUser = user;

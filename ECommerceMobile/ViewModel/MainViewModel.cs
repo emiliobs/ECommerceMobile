@@ -31,21 +31,29 @@ namespace ECommerceMobile.ViewModel
         #region Constructor
         public MainViewModel()
         {
+            //aqui ya tengo el objeto instanciado(usted es la instancia)
+            //singleton
+            instance = this;
+
+
+            //create observable collection
             Menu = new ObservableCollection<MenuItemViewModel>();
 
-            //Solo neceisto el login solo al entrar al servicio:
-            NewLogin = new LoginViewModel();
 
+           //Instance service
             dataService = new DataService();
 
+
+            //Create views
+            //Solo neceisto el login solo al entrar al servicio:
+            NewLogin = new LoginViewModel();
             //aqui me trae la propiedad fullname
             UserLoged = new UserViewModel();
 
 
+            //load data:
             //traigo el nombre completo del usuario actual:
-            LoadUser();
-
-
+            //LoadUser();
             //Menu
             LoadMenu();
         }
@@ -55,18 +63,46 @@ namespace ECommerceMobile.ViewModel
         #endregion
 
 
+        #region Singleton
+
+        //propiesda privatda estatica de ella misma:
+        private static MainViewModel instance;
+
+
+        public static MainViewModel GetInstance()
+        {
+            if (instance == null)
+            {
+                instance = new MainViewModel();
+            }
+
+            return instance;
+        }
+
+        #endregion
+
         #region Methods
 
-        private void LoadUser()
+        public void LoadUser(User user)
         {
-            var user = dataService.GetUser();
-
-            ////aqui copio el user de la api(fullname properti de la clase User)
-            ////y lo puedo bindiar desde userPage.xaml
             UserLoged.FullName = user.FullName;
-
-            //para consumir la foto y bindiarla en el userpage:
             UserLoged.Photo = user.PhotoFullPath;
+
+            // var user = dataService.GetUser();
+
+            ////Aqui valido si hay usuarios:
+            //if (user != null)
+            //{
+            //    ////aqui copio el user de la api(fullname properti de la clase User)
+            //    ////y lo puedo bindiar desde userPage.xaml
+            //    UserLoged.FullName = user.FullName;
+
+            //    //para consumir la foto y bindiarla en el userpage:
+            //    UserLoged.Photo = user.PhotoFullPath;
+            //}
+
+
+
 
 
         }

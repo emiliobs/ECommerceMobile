@@ -1,6 +1,7 @@
 ﻿using ECommerceMobile.Models;
 using ECommerceMobile.Pages;
 using ECommerceMobile.Service;
+using ECommerceMobile.ViewModel;
 using Xamarin.Forms;
 
 namespace ECommerceMobile
@@ -26,6 +27,9 @@ namespace ECommerceMobile
         {
             InitializeComponent();
 
+            //aqui si esta con recuerdo entra sin logiarse:
+
+
             dataService = new DataService();
 
             //Aqui busco o pregunto si hay un usuario logiado en la bd:
@@ -34,6 +38,14 @@ namespace ECommerceMobile
             //aqui pregunto si el user esta con recuerdo(en bd)
             if (user != null && user.IsRemembered)
             {
+
+                //aqui consumo el sigleton de MainViewMOdel(lapropiedady el metodo sin instancia la clase)
+                //tomo la propiedad
+                var mainViewModel = MainViewModel.GetInstance();
+
+                //aqui tomo el método:
+                mainViewModel.LoadUser(user);
+
                 //aqui cuando se haga el login con remembered le digo al currentUser el userio:
                 //cuando me deslogue, saber cual es usuario a desloguiar:
                 App.CurrentUser = user;

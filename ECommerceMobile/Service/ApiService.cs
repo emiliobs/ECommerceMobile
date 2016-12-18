@@ -11,6 +11,8 @@ namespace ECommerceMobile.Service
 {
     public class ApiService
     {
+        #region Methods
+
         public async Task<Response> Login(string email, string password)
         {
             try
@@ -19,13 +21,13 @@ namespace ECommerceMobile.Service
                 var loginRequest = new LoginRequest()
                 {
                     Email = email,
-                    Password =  password
+                    Password = password
                 };
 
                 //aqui convierto el contenido del objeto loginRequest a json:
                 var request = JsonConvert.SerializeObject(loginRequest);
 
-                var content = new  StringContent(request, Encoding.UTF8, "application/json");
+                var content = new StringContent(request, Encoding.UTF8, "application/json");
 
                 var client = new HttpClient();
                 client.BaseAddress = new Uri("http://zulu-software.com");
@@ -51,7 +53,7 @@ namespace ECommerceMobile.Service
                 var user = JsonConvert.DeserializeObject<User>(result);
 
 
-                return  new Response()
+                return new Response()
                 {
                     IsSuccess = true,
                     Message = "Login, OK.!",
@@ -61,7 +63,7 @@ namespace ECommerceMobile.Service
             catch (Exception ex)
             {
 
-                return  new Response()
+                return new Response()
                 {
                     IsSuccess = false,
                     Message = ex.Message
@@ -69,5 +71,40 @@ namespace ECommerceMobile.Service
 
             }
         }
+
+
+        public async Task<List<Product>> GetProducts()
+        {
+            try
+            {
+
+                var client = new HttpClient();
+                client.BaseAddress = new Uri("http://zulu-software.com");
+                var url = "/ECommerce/api/Products";
+
+                var response = await client.GetAsync(url);
+
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return null;
+                }
+
+                var result = await response.Content.ReadAsStringAsync();
+                var products = JsonConvert.DeserializeObject<List<Product>>(result);
+
+
+                return products;
+            }
+            catch (Exception)
+            {
+
+                return null;
+            }
+        }
+
+        #endregion
+
+
     }
 }

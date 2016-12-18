@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using ECommerceMobile.Models;
 using ECommerceMobile.Service;
 
@@ -15,14 +10,19 @@ namespace ECommerceMobile.ViewModel
 
         private DataService dataService;
 
+        public ApiService apiService;
+
         #endregion
 
         #region Properties
         public ObservableCollection<MenuItemViewModel> Menu { get; set; }
+        public ObservableCollection<ProductsItemViewMOdel> Products { get; set; }
 
         public LoginViewModel NewLogin { get; set; }
 
         public UserViewModel UserLoged { get; set; }
+
+
 
 
 
@@ -38,10 +38,12 @@ namespace ECommerceMobile.ViewModel
 
             //create observable collection
             Menu = new ObservableCollection<MenuItemViewModel>();
+            Products = new ObservableCollection<ProductsItemViewMOdel>();
 
 
            //Instance service
             dataService = new DataService();
+            apiService = new ApiService();
 
 
             //Create views
@@ -56,6 +58,7 @@ namespace ECommerceMobile.ViewModel
             //LoadUser();
             //Menu
             LoadMenu();
+            LoadProduct();
         }
 
 
@@ -82,6 +85,39 @@ namespace ECommerceMobile.ViewModel
         #endregion
 
         #region Methods
+
+        public async void LoadProduct()
+        {
+            var products = await apiService.GetProducts();
+
+            //lo limpio por si lo llamo de otro lado..
+            Products.Clear();
+
+
+            //Aqui hago la translación del objeto(paso todo de la api a las propiesdes de la clase ProductItemViewMOdel(en memoria)
+            foreach (var product in products)
+            {
+                Products.Add(new ProductsItemViewMOdel()
+                {
+                    BarCode = product.BarCode,
+                    Category = product.Category,
+                    CategoryId = product.CategoryId,
+                    Company = product.Company,
+                    CompanyId = product.CompanyId,
+                    Tax = product.Tax,
+                    Description = product.Description,
+                    Image = product.Image,
+                    Inventories = product.Inventories,
+                    Price = product.Price,
+                    ProductId = product.ProductId,
+                    Remarks = product.Remarks,
+                    Stock = product.Stock,
+                    TaxId = product.TaxId
+                });
+            }
+        }
+
+
 
         public void LoadUser(User user)
         {

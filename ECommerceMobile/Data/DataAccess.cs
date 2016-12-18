@@ -25,8 +25,18 @@ namespace ECommerceMobile.Data
 
             connection = new SQLiteConnection(config.Platform, Path.Combine(config.DirectoryDB, "ECommerce.db3"));
 
-            connection.CreateTable<User>();
+            connection.CreateTable<Category>();
+            connection.CreateTable<City>();
             connection.CreateTable<Company>();
+            connection.CreateTable<CompanyCustomer>();
+            connection.CreateTable<Customer>();
+            connection.CreateTable<Department>();
+            connection.CreateTable<Inventory>();
+            connection.CreateTable<Order>();
+            connection.CreateTable<Product>();
+            connection.CreateTable<Sale>();
+            connection.CreateTable<Tax>();
+            connection.CreateTable<User>();
         }
 
         #endregion

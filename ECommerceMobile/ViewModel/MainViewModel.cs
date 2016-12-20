@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using ECommerceMobile.Models;
 using ECommerceMobile.Service;
 
@@ -11,6 +12,8 @@ namespace ECommerceMobile.ViewModel
         private DataService dataService;
 
         public ApiService apiService;
+
+        public NetService netService;
 
         #endregion
 
@@ -31,6 +34,10 @@ namespace ECommerceMobile.ViewModel
         #region Constructor
         public MainViewModel()
         {
+
+            //
+
+
             //aqui ya tengo el objeto instanciado(usted es la instancia)
             //singleton
             instance = this;
@@ -44,7 +51,7 @@ namespace ECommerceMobile.ViewModel
            //Instance service
             dataService = new DataService();
             apiService = new ApiService();
-
+            netService = new NetService();
 
             //Create views
             //Solo neceisto el login solo al entrar al servicio:
@@ -88,14 +95,32 @@ namespace ECommerceMobile.ViewModel
 
         public async void LoadProduct()
         {
-            var products = await apiService.GetProducts();
+          var productasList = new List<Product>();
+
+
+
+            //aqui pregunto si hay conexion a internet?:
+            if (netService.IsConnected())
+            {
+                productasList = await apiService.GetProducts();
+
+                //como hay conexion los gusdo en la db
+                //para luego ustilizar una 2da instacia y  utilizar los datos si no hay conexion:
+                dataService.SaveProducts(productasList);
+
+
+            }
+            else
+            {
+                productasList = dataService.GetProducts();
+            }
 
             //lo limpio por si lo llamo de otro lado..
             Products.Clear();
 
 
             //Aqui hago la translación del objeto(paso todo de la api a las propiesdes de la clase ProductItemViewMOdel(en memoria)
-            foreach (var product in products)
+            foreach (var product in productasList)
             {
                 Products.Add(new ProductsItemViewMOdel()
                 {

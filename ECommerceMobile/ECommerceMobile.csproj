@@ -41,6 +41,7 @@
     <Compile Include="Data\DataAccess.cs" />
     <Compile Include="Infrastructure\InstanceLocator.cs" />
     <Compile Include="Interface\IConfig.cs" />
+    <Compile Include="Interface\INetworkConnection.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\Company.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="Service\DataService.cs" />
     <Compile Include="Service\DialogService.cs" />
     <Compile Include="Service\NavigationService.cs" />
+    <Compile Include="Service\NetService.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\MenuItemViewModel.cs" />

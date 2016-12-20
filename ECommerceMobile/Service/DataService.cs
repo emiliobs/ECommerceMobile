@@ -95,6 +95,35 @@ namespace ECommerceMobile.Service
                 };
             }
         }
+
+        public void SaveProducts(List<Product> productasList)
+        {
+            using (var da = new DataAccess())
+            {
+                //primero borro los datos viejos:
+                var oldProducts = da.GetList<Product>(false);
+
+                foreach (var product in oldProducts)
+                {
+                    da.Delete(product);
+                }
+
+                //aqui guardo los produxtos nuevos en la bd:
+                foreach (var product in productasList)
+                {
+                    da.Insert(product);
+                }
+
+            }
+        }
+
+        public List<Product> GetProducts()
+        {
+            using (var da = new DataAccess())
+            {
+                return da.GetList<Product>(true);
+            }
+        }
     }
 
 

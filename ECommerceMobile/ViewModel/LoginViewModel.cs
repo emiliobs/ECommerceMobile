@@ -20,6 +20,8 @@ namespace ECommerceMobile.ViewModel
 
         private DataService dataService;
 
+        private NetService netService;
+
         private bool isRunning;
 
         #endregion
@@ -64,6 +66,8 @@ namespace ECommerceMobile.ViewModel
 
             dataService = new DataService();
 
+            netService = new NetService();
+
             IsRemembered = true;
         }
 
@@ -106,7 +110,26 @@ namespace ECommerceMobile.ViewModel
 
             //Aqui ya consumo el servicio:
             IsRunning = true;
-            var response = await apiService.Login(User, Password);
+
+            var response = new Response();
+
+            //oregunto si hay conexion?:
+            if (netService.IsConnected())
+            {
+
+                //aqui consumo la api si hay comexion para el login:
+                response = await apiService.Login(User, Password);
+
+            }
+            else
+            {
+
+                //aqui consumo la bd si no hay conecion para el login:
+             response =  dataService.Login(User, Password);
+
+            }
+
+
             IsRunning = false;
 
 

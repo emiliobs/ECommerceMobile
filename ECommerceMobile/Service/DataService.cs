@@ -36,7 +36,7 @@ namespace ECommerceMobile.Service
             {
 
 
-                return  new Response()
+                return new Response()
                 {
                     IsSuccess = false,
                     Message = ex.Message
@@ -121,7 +121,58 @@ namespace ECommerceMobile.Service
         {
             using (var da = new DataAccess())
             {
-                return da.GetList<Product>(true);
+                return da.GetList<Product>(true).OrderBy(p => p.Description).ToList();
+            }
+        }
+
+        public Response Login(string email, string password)
+        {
+            try
+            {
+                using (var da = new DataAccess())
+                {
+                    //aqui busco si hay usuario en memoria o bd:
+                    var user = da.First<User>(true);
+
+                    if (user == null)
+                    {
+                        return new Response()
+                        {
+                            IsSuccess = false,
+                            Message = "No hay conexión o internet, y no hay usuario previamente registrado.!"
+                        };
+                    }
+
+                    //aqui hay conexio, y si el usuario  y contraseña es correcto pasa del login a userpage
+                    if (user.UserName.ToUpper() == email.ToUpper() && user.Password == password)
+                    {
+                        return  new Response()
+                        {
+                            IsSuccess = true,
+                            Message = "Login, OK.!",
+                            Result = user
+                        };
+                    }
+
+                    //aqui el hay problemas con usuario y paswword:
+                    return new Response()
+                    {
+                        IsSuccess = false,
+                        Message = "Usuario o Contraseña Incorrectos.!",
+
+                    };
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return new Response()
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
             }
         }
     }

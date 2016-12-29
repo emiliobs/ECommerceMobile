@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using ECommerceMobile.Models;
 using ECommerceMobile.Service;
@@ -7,7 +9,7 @@ using GalaSoft.MvvmLight.Command;
 
 namespace ECommerceMobile.ViewModel
 {
-    public class MainViewModel
+    public class MainViewModel : INotifyPropertyChanged
     {
         #region Attributes
 
@@ -16,6 +18,9 @@ namespace ECommerceMobile.ViewModel
         public ApiService apiService;
 
         public NetService netService;
+
+        //aqui ligo el public event PropertyChangedEventHandler PropertyChanged:
+        private string filter;
 
         #endregion
 
@@ -27,7 +32,28 @@ namespace ECommerceMobile.ViewModel
 
         public UserViewModel UserLoged { get; set; }
 
-        public string Filter { get; set; }
+        public string Filter
+        {
+            get { return filter; }
+            set
+            {
+
+                if (filter != value)
+                {
+                    filter = value;
+
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Filter"));
+
+                    if (string.IsNullOrEmpty(filter))
+                    {
+                        //Aqui tomo los datos de forma locar, sin consumir el servicio
+                        LoadLocalProduct();
+                    }
+
+                }
+            }
+        }
+
 
 
         #endregion
@@ -75,6 +101,8 @@ namespace ECommerceMobile.ViewModel
 
         #region Events
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         #endregion
 
 
@@ -82,6 +110,7 @@ namespace ECommerceMobile.ViewModel
 
         //propiesda privatda estatica de ella misma:
         private static MainViewModel instance;
+
 
 
         public static MainViewModel GetInstance()
@@ -110,13 +139,26 @@ namespace ECommerceMobile.ViewModel
 
         #region Methods
 
-        private void SearchProduct()
+        private void LoadLocalProduct()
         {
-            //Aqui traigo los productos:
-            var productsList = dataService.GetProducts(Filter);
+            var productsList = dataService.GetProducts();
 
+
+            //Metodo para recargar losdatos, para evitar copiar y pegar:
+            ReloadProducts(productsList);
+
+
+
+
+        }
+
+        private void ReloadProducts(List<Product> productsList)
+        {
+            //lo limpio por si lo llamo de otro lado..
             Products.Clear();
 
+
+            //Aqui hago la translación del objeto(paso todo de la api a las propiesdes de la clase ProductItemViewMOdel(en memoria)
             foreach (var product in productsList)
             {
                 Products.Add(new ProductsItemViewMOdel()
@@ -124,21 +166,27 @@ namespace ECommerceMobile.ViewModel
                     BarCode = product.BarCode,
                     Category = product.Category,
                     CategoryId = product.CategoryId,
-                    Description = product.Description,
+                    Company = product.Company,
                     CompanyId = product.CompanyId,
                     Tax = product.Tax,
-                    Company = product.Company,
-                    TaxId = product.TaxId,
-                    ProductId = product.ProductId,
-                    Price = product.Price,
-                    Stock = product.Stock,
-                    Inventories = product.Inventories,
+                    Description = product.Description,
                     Image = product.Image,
-                    Remarks = product.Remarks
-
-
+                    Inventories = product.Inventories,
+                    Price = product.Price,
+                    ProductId = product.ProductId,
+                    Remarks = product.Remarks,
+                    Stock = product.Stock,
+                    TaxId = product.TaxId
                 });
             }
+        }
+
+        private void SearchProduct()
+        {
+            //Aqui traigo los productos:
+            var productsList = dataService.GetProducts(Filter);
+
+            ReloadProducts(productsList);
 
 
         }
@@ -165,31 +213,9 @@ namespace ECommerceMobile.ViewModel
                 productasList = dataService.GetProducts();
             }
 
-            //lo limpio por si lo llamo de otro lado..
-            Products.Clear();
+            ReloadProducts(productasList);
 
 
-            //Aqui hago la translación del objeto(paso todo de la api a las propiesdes de la clase ProductItemViewMOdel(en memoria)
-            foreach (var product in productasList)
-            {
-                Products.Add(new ProductsItemViewMOdel()
-                {
-                    BarCode = product.BarCode,
-                    Category = product.Category,
-                    CategoryId = product.CategoryId,
-                    Company = product.Company,
-                    CompanyId = product.CompanyId,
-                    Tax = product.Tax,
-                    Description = product.Description,
-                    Image = product.Image,
-                    Inventories = product.Inventories,
-                    Price = product.Price,
-                    ProductId = product.ProductId,
-                    Remarks = product.Remarks,
-                    Stock = product.Stock,
-                    TaxId = product.TaxId
-                });
-            }
         }
 
 
@@ -279,5 +305,7 @@ namespace ECommerceMobile.ViewModel
         }
 
         #endregion
+
+
     }
 }

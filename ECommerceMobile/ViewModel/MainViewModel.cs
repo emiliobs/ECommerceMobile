@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 using ECommerceMobile.Models;
 using ECommerceMobile.Service;
+using GalaSoft.MvvmLight.Command;
 
 namespace ECommerceMobile.ViewModel
 {
@@ -25,8 +27,7 @@ namespace ECommerceMobile.ViewModel
 
         public UserViewModel UserLoged { get; set; }
 
-
-
+        public string Filter { get; set; }
 
 
         #endregion
@@ -72,6 +73,10 @@ namespace ECommerceMobile.ViewModel
 
         #endregion
 
+        #region Events
+
+        #endregion
+
 
         #region Singleton
 
@@ -91,7 +96,52 @@ namespace ECommerceMobile.ViewModel
 
         #endregion
 
+
+        #region Commands
+
+        public ICommand searchProductCommand
+        {
+            get { return  new RelayCommand(SearchProduct);}
+        }
+
+
+
+        #endregion
+
         #region Methods
+
+        private void SearchProduct()
+        {
+            //Aqui traigo los productos:
+            var productsList = dataService.GetProducts(Filter);
+
+            Products.Clear();
+
+            foreach (var product in productsList)
+            {
+                Products.Add(new ProductsItemViewMOdel()
+                {
+                    BarCode = product.BarCode,
+                    Category = product.Category,
+                    CategoryId = product.CategoryId,
+                    Description = product.Description,
+                    CompanyId = product.CompanyId,
+                    Tax = product.Tax,
+                    Company = product.Company,
+                    TaxId = product.TaxId,
+                    ProductId = product.ProductId,
+                    Price = product.Price,
+                    Stock = product.Stock,
+                    Inventories = product.Inventories,
+                    Image = product.Image,
+                    Remarks = product.Remarks
+
+
+                });
+            }
+
+
+        }
 
         public async void LoadProduct()
         {

@@ -117,6 +117,18 @@ namespace ECommerceMobile.Service
             }
         }
 
+        public List<Product> GetProducts(string filter)
+        {
+            using (var da = new DataAccess())
+            {
+                return
+                    da.GetList<Product>(true)
+                        .Where(p => p.Description.ToUpper().Contains(filter.ToUpper()))
+                        .OrderBy(p => p.Description)
+                        .ToList();
+            }
+        }
+
         public List<Product> GetProducts()
         {
             using (var da = new DataAccess())

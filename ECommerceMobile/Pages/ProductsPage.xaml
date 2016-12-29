@@ -5,6 +5,7 @@
               Title="Productos."
               BackgroundColor="{StaticResource BackgroundColor}"
              BindingContext="{Binding Main, Source={StaticResource Locator}}">
+
     <StackLayout>
 
         <SearchBar Placeholder="Buscar....."
@@ -14,44 +15,12 @@
         </SearchBar>
 
 
-   <ListView ItemsSource="{Binding Products}" HasUnevenRows="True">
+   <ListView
+             ItemTemplate="{StaticResource ProductItemTemplate}"
+             ItemsSource="{Binding Products}"
+             HasUnevenRows="True">
 
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <Grid Padding="8">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <Image
-                              Source="{Binding ImageFullPath}"
-                              VerticalOptions="Start"
-                              WidthRequest="100"
-                              HeightRequest="100"/>
-                            <StackLayout Grid.Column="1">
-                                <Label
-                                FontAttributes="Bold"
-                                VerticalOptions="Center"
-                                TextColor="{StaticResource AccentColor1}"
-                                Text="{Binding Description}"/>
 
-                                <Label
-                                VerticalOptions="Center"
-                                FontAttributes="Bold"
-                                TextColor="{StaticResource AccentColor1}"
-                                Text="{Binding Price, StringFormat='Price: {0:C2}'}"/>
-
-                                <Label
-                                 FontAttributes="Bold"
-                                VerticalOptions="Center"
-                                TextColor="{StaticResource AccentColor1}"
-                                Text="{Binding Stock, StringFormat='Stock: {0:N2}'}"/>
-                            </StackLayout>
-                        </Grid>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
         </ListView>
 
     </StackLayout>

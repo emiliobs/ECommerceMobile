@@ -8,6 +8,10 @@
 
 		<ResourceDictionary>
 
+            <!--Locator-->
+            <infra:InstanceLocator x:Key="Locator"></infra:InstanceLocator>
+
+
             <!-- General colors -->
             <Color x:Key="MainColor">#1B2B32</Color>
             <Color x:Key="FontColor">#A3ABAF</Color>
@@ -17,8 +21,43 @@
             <Color x:Key="MenuColor">#37646F</Color>
             <Color x:Key="MenuFontColor">#E1E7E8</Color>
 
-            <!--Locator-->
-            <infra:InstanceLocator x:Key="Locator"></infra:InstanceLocator>
+
+            <!--Data Template-->
+
+            <DataTemplate x:Key="ProductItemTemplate">
+                <ViewCell>
+                    <Grid Padding="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Image
+                              Source="{Binding ImageFullPath}"
+                              VerticalOptions="Start"
+                              WidthRequest="100"
+                              HeightRequest="100"/>
+                        <StackLayout Grid.Column="1">
+                            <Label
+                                FontAttributes="Bold"
+                                VerticalOptions="Center"
+                                TextColor="{StaticResource AccentColor1}"
+                                Text="{Binding Description}"/>
+
+                            <Label
+                                VerticalOptions="Center"
+                                FontAttributes="Bold"
+                                TextColor="{StaticResource AccentColor1}"
+                                Text="{Binding Price, StringFormat='Price: {0:C2}'}"/>
+
+                            <Label
+                                 FontAttributes="Bold"
+                                VerticalOptions="Center"
+                                TextColor="{StaticResource AccentColor1}"
+                                Text="{Binding Stock, StringFormat='Stock: {0:N2}'}"/>
+                        </StackLayout>
+                    </Grid>
+                </ViewCell>
+            </DataTemplate>
 
         </ResourceDictionary>
 

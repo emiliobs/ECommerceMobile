@@ -6,6 +6,23 @@
               BackgroundColor="{StaticResource BackgroundColor}"
              BindingContext="{Binding Main, Source={StaticResource Locator}}">
 
-    <Label Text="Customers Page." TextColor="{StaticResource FontColor}" HorizontalOptions="Center" VerticalOptions="Center"></Label>
+    <StackLayout>
+
+        <SearchBar Placeholder="Buscar....."
+                   Text="{Binding Filter, Mode=TwoWay}"
+                   SearchCommand="{Binding searchProductCommand}">
+
+        </SearchBar>
+
+
+        <ListView ItemTemplate="{StaticResource ProductItemTemplate}"
+                  ItemsSource="{Binding Products}"
+                  HasUnevenRows="True">
+
+
+        </ListView>
+
+    </StackLayout>
+
 
 </ContentPage>

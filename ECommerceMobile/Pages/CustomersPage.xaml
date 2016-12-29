@@ -9,14 +9,14 @@
     <StackLayout>
 
         <SearchBar Placeholder="Buscar....."
-                   Text="{Binding Filter, Mode=TwoWay}"
-                   SearchCommand="{Binding searchProductCommand}">
+                   Text="{Binding CustomersFilter, Mode=TwoWay}"
+                   SearchCommand="{Binding searchCustomersCommand}">
 
         </SearchBar>
 
 
-        <ListView ItemTemplate="{StaticResource ProductItemTemplate}"
-                  ItemsSource="{Binding Products}"
+        <ListView ItemTemplate="{StaticResource CustomersItemTemplate}"
+                  ItemsSource="{Binding Customers}"
                   HasUnevenRows="True">
 
 

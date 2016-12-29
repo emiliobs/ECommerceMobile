@@ -59,6 +59,48 @@
                 </ViewCell>
             </DataTemplate>
 
+            <DataTemplate x:Key="CustomersItemTemplate">
+                <ViewCell>
+                    <Grid Padding="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Image
+                              Source="{Binding PhotoFullPath}"
+                              VerticalOptions="Start"
+                              WidthRequest="100"
+                              HeightRequest="100"/>
+                        <StackLayout Grid.Column="1">
+                            <Label
+                                FontAttributes="Bold"
+                                VerticalOptions="Center"
+                                TextColor="{StaticResource AccentColor1}"
+                                Text="{Binding  FullName}"/>
+
+                            <Label
+                                VerticalOptions="Center"
+                                FontAttributes="Bold"
+                                TextColor="{StaticResource AccentColor1}"
+                                Text="{Binding UserName, StringFormat='E-Mail: {0}'}"/>
+
+                            <Label
+                                 FontAttributes="Bold"
+                                VerticalOptions="Center"
+                                TextColor="{StaticResource AccentColor1}"
+                                Text="{Binding Address, StringFormat='Dirección:  {0}'}"/>
+
+                            <Label
+                                 FontAttributes="Bold"
+                                VerticalOptions="Center"
+                                TextColor="{StaticResource AccentColor1}"
+                                Text="{Binding Phone, StringFormat='Teléfono: {0}'}" />
+
+                        </StackLayout>
+                    </Grid>
+                </ViewCell>
+            </DataTemplate>
+
         </ResourceDictionary>
 
 	</Application.Resources>

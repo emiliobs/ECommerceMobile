@@ -187,6 +187,45 @@ namespace ECommerceMobile.Service
                 };
             }
         }
+
+        public List<Customer> GetCustomers(string customersFilter)
+        {
+            using (var da = new DataAccess())
+            {
+                return da.GetList<Customer>(true)
+                    .Where(c => c.FirstName.ToUpper().Contains(customersFilter.ToUpper()))
+                    .OrderBy(c=>c.FirstName).ToList();
+            }
+        }
+
+        public void SaveCustomers(List<Customer> customersList)
+        {
+            using (var da = new DataAccess())
+            {
+                //primero borro los datos viejos:
+                var oldCustomes = da.GetList<Customer>(false);
+
+                foreach (var customer in oldCustomes)
+                {
+                    da.Delete(customer);
+                }
+
+                //aqui guardo los produxtos nuevos en la bd:
+                foreach (var customer in customersList)
+                {
+                    da.Insert(customer);
+                }
+
+            }
+        }
+
+        public List<Customer> GetCustomers()
+        {
+            using (var da = new DataAccess())
+            {
+                return da.GetList<Customer>(true).OrderBy(c => c.FirstName).ThenBy(c => c.LastName).ToList();
+            }
+        }
     }
 
 

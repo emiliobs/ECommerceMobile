@@ -20,31 +20,58 @@ namespace ECommerceMobile.ViewModel
         public NetService netService;
 
         //aqui ligo el public event PropertyChangedEventHandler PropertyChanged:
-        private string filter;
+        private string productsFilter;
+
+        private string customersFilter;
 
         #endregion
 
         #region Properties
         public ObservableCollection<MenuItemViewModel> Menu { get; set; }
         public ObservableCollection<ProductsItemViewMOdel> Products { get; set; }
+        public ObservableCollection<CustomerItemView> Customers { get; set; }
 
         public LoginViewModel NewLogin { get; set; }
 
         public UserViewModel UserLoged { get; set; }
 
-        public string Filter
+        public string CustomersFilter
         {
-            get { return filter; }
+            get { return customersFilter; }
+
+            set
+            {
+                if (customersFilter != value)
+                {
+                    customersFilter = value;
+
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CustomersFilter"));
+
+                    if (string.IsNullOrEmpty(customersFilter))
+                    {
+                        //Aqui tomo los datos de forma locar, sin consumir el servicio
+                        LoadLocalCustomers();
+                    }
+
+                }
+            }
+        }
+
+
+
+        public string ProductsFilter
+        {
+            get { return productsFilter; }
             set
             {
 
-                if (filter != value)
+                if (productsFilter != value)
                 {
-                    filter = value;
+                    productsFilter = value;
 
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Filter"));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("ProductsFilter"));
 
-                    if (string.IsNullOrEmpty(filter))
+                    if (string.IsNullOrEmpty(productsFilter))
                     {
                         //Aqui tomo los datos de forma locar, sin consumir el servicio
                         LoadLocalProduct();
@@ -73,6 +100,7 @@ namespace ECommerceMobile.ViewModel
             //create observable collection
             Menu = new ObservableCollection<MenuItemViewModel>();
             Products = new ObservableCollection<ProductsItemViewMOdel>();
+            Customers = new ObservableCollection<CustomerItemView>( );
 
 
            //Instance service
@@ -93,6 +121,7 @@ namespace ECommerceMobile.ViewModel
             //Menu
             LoadMenu();
             LoadProduct();
+            LoadCustomers();
         }
 
 
@@ -133,11 +162,103 @@ namespace ECommerceMobile.ViewModel
             get { return  new RelayCommand(SearchProduct);}
         }
 
+        private void SearchProduct()
+        {
+            //Aqui traigo los productos:
+            var productsList = dataService.GetProducts(ProductsFilter);
 
+            ReloadProducts(productsList);
+
+
+        }
+
+
+
+        public ICommand searchCustomersCommand
+        {
+            get { return new RelayCommand(SearchCustomer); }
+        }
+
+        private void SearchCustomer()
+        {
+            //Aqui traigo los productos:
+            var customerList = dataService.GetCustomers(CustomersFilter);
+
+            ReloadCustomers(customerList);
+        }
 
         #endregion
 
         #region Methods
+
+        private void LoadLocalCustomers()
+        {
+            var customersList = dataService.GetCustomers();
+
+
+            //Metodo para recargar losdatos, para evitar copiar y pegar:
+            ReloadCustomers(customersList);
+        }
+
+
+
+        private async void LoadCustomers()
+        {
+            var customersList = new List<Customer>();
+
+
+
+            //aqui pregunto si hay conexion a internet?:
+            if (netService.IsConnected())
+            {
+                customersList = await apiService.GetCustomers();
+
+                //como hay conexion los gusdo en la db
+                //para luego ustilizar una 2da instacia y  utilizar los datos si no hay conexion:
+                dataService.SaveCustomers(customersList);
+
+
+            }
+            else
+            {
+                customersList = dataService.GetCustomers();
+            }
+
+            ReloadCustomers(customersList);
+        }
+
+        private void ReloadCustomers(List<Customer> customersList)
+        {
+            //lo limpio por si lo llamo de otro lado..
+            Customers.Clear();
+
+
+            //Aqui hago la translación del objeto(paso todo de la api a las propiesdes de la clase ProductItemViewMOdel(en memoria)
+            foreach (var customer in customersList)
+            {
+                Customers.Add(new CustomerItemView()
+                {
+                    Photo = customer.Photo,
+                    FirstName = customer.FirstName,
+                    LastName = customer.LastName,
+                    Phone = customer.Phone,
+                    Department = customer.Department,
+                    City = customer.City,
+                    UserName = customer.UserName,
+                    Address = customer.Address,
+                    CityId = customer.CityId,
+                    CompanyCustomers = customer.CompanyCustomers,
+                    CustomerId = customer.CustomerId,
+                    DepartmentId = customer.DepartmentId,
+                    IsUpdated = customer.IsUpdated,
+                    Latitude = customer.Latitude,
+                    Longitude = customer.Longitude,
+                    Orders = customer.Orders,
+                    Sales = customer.Sales
+
+                });
+            }
+        }
 
         private void LoadLocalProduct()
         {
@@ -146,10 +267,6 @@ namespace ECommerceMobile.ViewModel
 
             //Metodo para recargar losdatos, para evitar copiar y pegar:
             ReloadProducts(productsList);
-
-
-
-
         }
 
         private void ReloadProducts(List<Product> productsList)
@@ -181,15 +298,7 @@ namespace ECommerceMobile.ViewModel
             }
         }
 
-        private void SearchProduct()
-        {
-            //Aqui traigo los productos:
-            var productsList = dataService.GetProducts(Filter);
 
-            ReloadProducts(productsList);
-
-
-        }
 
         public async void LoadProduct()
         {

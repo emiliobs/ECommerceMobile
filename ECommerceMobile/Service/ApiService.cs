@@ -105,6 +105,34 @@ namespace ECommerceMobile.Service
 
         #endregion
 
+        public async Task<List<Customer>> GetCustomers()
+        {
+            try
+            {
 
+                var client = new HttpClient();
+                client.BaseAddress = new Uri("http://zulu-software.com");
+                var url = "/ECommerce/api/Customers";
+
+                var response = await client.GetAsync(url);
+
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return null;
+                }
+
+                var result = await response.Content.ReadAsStringAsync();
+                var customers = JsonConvert.DeserializeObject<List<Customer>>(result);
+
+
+                return customers.OrderBy(c => c.FirstName).ThenBy(c=>c.LastName).ToList();
+            }
+            catch (Exception)
+            {
+
+                return null;
+            }
+        }
     }
 }

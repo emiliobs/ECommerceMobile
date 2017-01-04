@@ -73,46 +73,81 @@ namespace ECommerceMobile.Service
         }
 
 
-        public async Task<List<Product>> GetProducts()
-        {
-            try
-            {
+        //Utilizo el Método Generico:
 
-                var client = new HttpClient();
-                client.BaseAddress = new Uri("http://zulu-software.com");
-                var url = "/ECommerce/api/Products";
+        //public async Task<List<Product>> GetProducts()
+        //{
+        //    try
+        //    {
 
-                var response = await client.GetAsync(url);
+        //        var client = new HttpClient();
+        //        client.BaseAddress = new Uri("http://zulu-software.com");
+        //        var url = "/ECommerce/api/Products";
 
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    return null;
-                }
-
-                var result = await response.Content.ReadAsStringAsync();
-                var products = JsonConvert.DeserializeObject<List<Product>>(result);
+        //        var response = await client.GetAsync(url);
 
 
-                return products.OrderBy(p => p.Description).ToList();
-            }
-            catch (Exception)
-            {
+        //        if (!response.IsSuccessStatusCode)
+        //        {
+        //            return null;
+        //        }
 
-                return null;
-            }
-        }
+        //        var result = await response.Content.ReadAsStringAsync();
+        //        var products = JsonConvert.DeserializeObject<List<Product>>(result);
+
+
+        //        return products.OrderBy(p => p.Description).ToList();
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        return null;
+        //    }
+        //}
 
         #endregion
 
-        public async Task<List<Customer>> GetCustomers()
+
+        //Método Normal:
+        //public async Task<List<Customer>> GetCustomers()
+        //{
+        //    try
+        //    {
+
+        //        var client = new HttpClient();
+        //        client.BaseAddress = new Uri("http://zulu-software.com");
+        //        var url = "/ECommerce/api/Customers";
+
+        //        var response = await client.GetAsync(url);
+
+
+        //        if (!response.IsSuccessStatusCode)
+        //        {
+        //            return null;
+        //        }
+
+        //        var result = await response.Content.ReadAsStringAsync();
+        //        var customers = JsonConvert.DeserializeObject<List<Customer>>(result);
+
+
+        //        return customers.OrderBy(c => c.FirstName).ThenBy(c=>c.LastName).ToList();
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        return null;
+        //    }
+        //}
+
+        //Método Generico:
+        public async Task<List<T>> Get<T>(string controller)
         {
             try
             {
 
                 var client = new HttpClient();
                 client.BaseAddress = new Uri("http://zulu-software.com");
-                var url = "/ECommerce/api/Customers";
+                var url = $"/ECommerce/api/{controller}";
 
                 var response = await client.GetAsync(url);
 
@@ -123,10 +158,10 @@ namespace ECommerceMobile.Service
                 }
 
                 var result = await response.Content.ReadAsStringAsync();
-                var customers = JsonConvert.DeserializeObject<List<Customer>>(result);
+                var list = JsonConvert.DeserializeObject<List<T>>(result);
 
 
-                return customers.OrderBy(c => c.FirstName).ThenBy(c=>c.LastName).ToList();
+                return list;
             }
             catch (Exception)
             {

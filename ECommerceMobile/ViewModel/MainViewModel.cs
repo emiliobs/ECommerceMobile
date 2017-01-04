@@ -212,7 +212,7 @@ namespace ECommerceMobile.ViewModel
             //aqui pregunto si hay conexion a internet?:
             if (netService.IsConnected())
             {
-                customersList = await apiService.GetCustomers();
+                customersList = await apiService.Get<Customer>("Customers");
 
                 //como hay conexion los gusdo en la db
                 //para luego ustilizar una 2da instacia y  utilizar los datos si no hay conexion:
@@ -310,7 +310,7 @@ namespace ECommerceMobile.ViewModel
             //aqui pregunto si hay conexion a internet?:
             if (netService.IsConnected())
             {
-                productasList = await apiService.GetProducts();
+                productasList = await apiService.Get<Product>("Products");
 
                 //como hay conexion los gusdo en la db
                 //para luego ustilizar una 2da instacia y  utilizar los datos si no hay conexion:

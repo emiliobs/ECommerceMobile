@@ -193,8 +193,11 @@ namespace ECommerceMobile.Service
             using (var da = new DataAccess())
             {
                 return da.GetList<Customer>(true)
-                    .Where(c => c.FirstName.ToUpper().Contains(customersFilter.ToUpper()))
-                    .OrderBy(c=>c.FirstName).ToList();
+                    .Where(c => c.FirstName.ToUpper().Contains(customersFilter.ToUpper()) ||
+                           c.LastName.ToUpper().Contains(customersFilter.ToUpper()))
+                    .OrderBy(c=>c.FirstName)
+                    .ThenBy(c => c.LastName)
+                    .ToList();
             }
         }
 

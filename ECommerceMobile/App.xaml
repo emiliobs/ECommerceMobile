@@ -2,11 +2,12 @@
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:infra="clr-namespace:ECommerceMobile.Infrastructure;assembly=ECommerceMobile"
+             xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
              x:Class="ECommerceMobile.App">
 
-	<Application.Resources>
+    <Application.Resources>
 
-		<ResourceDictionary>
+        <ResourceDictionary>
 
             <!--Locator-->
             <infra:InstanceLocator x:Key="Locator"></infra:InstanceLocator>
@@ -31,6 +32,9 @@
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
+
+
+
                         <Image
                               Source="{Binding ImageFullPath}"
                               VerticalOptions="Start"
@@ -66,11 +70,21 @@
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Image
+
+                        <controls:CircleImage
+                            Source="{Binding PhotoFullPath}"
+                            Aspect="AspectFill"
+                            VerticalOptions="Start"
+                            WidthRequest="100"
+                            HeightRequest="100">
+
+                        </controls:CircleImage>
+
+                        <!--<Image
                               Source="{Binding PhotoFullPath}"
                               VerticalOptions="Start"
                               WidthRequest="100"
-                              HeightRequest="100"/>
+                              HeightRequest="100"/>-->
                         <StackLayout Grid.Column="1">
                             <Label
                                 FontAttributes="Bold"
@@ -103,5 +117,5 @@
 
         </ResourceDictionary>
 
-	</Application.Resources>
+    </Application.Resources>
 </Application>

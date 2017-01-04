@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -35,6 +36,9 @@ namespace ECommerceMobile.ViewModel
         public LoginViewModel NewLogin { get; set; }
 
         public UserViewModel UserLoged { get; set; }
+
+        public CustomerItemView CurrentCustomer { get; set; }
+
 
         public string CustomersFilter
         {
@@ -115,6 +119,8 @@ namespace ECommerceMobile.ViewModel
             //aqui me trae la propiedad fullname
             UserLoged = new UserViewModel();
 
+            CurrentCustomer = new CustomerItemView();
+
 
             //load data:
             //traigo el nombre completo del usuario actual:
@@ -158,6 +164,9 @@ namespace ECommerceMobile.ViewModel
 
         #region Commands
 
+
+
+
         public ICommand searchProductCommand
         {
             get { return  new RelayCommand(SearchProduct);}
@@ -179,6 +188,8 @@ namespace ECommerceMobile.ViewModel
         {
             get { return new RelayCommand(SearchCustomer); }
         }
+
+
 
         private void SearchCustomer()
         {
@@ -412,6 +423,13 @@ namespace ECommerceMobile.ViewModel
                 Title = "Cerrar Sesión."
             });
 
+        }
+
+
+
+        public void SetCurrentCustomer(CustomerItemView customerItemViewModel)
+        {
+            CurrentCustomer = customerItemViewModel;
         }
 
         #endregion

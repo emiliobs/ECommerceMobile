@@ -18,16 +18,17 @@
             <Color x:Key="FontColor">#A3ABAF</Color>
             <Color x:Key="AccentColor1">#E0110F</Color>
             <Color x:Key="BackgroundColor">#E1E7E8</Color>
-            <!-- Menu colors -->
             <Color x:Key="MenuColor">#37646F</Color>
             <Color x:Key="MenuFontColor">#E1E7E8</Color>
+            <Color x:Key="OrangeColor">#D97925</Color>
+            <Color x:Key="RedColor">#AB1A25</Color>
 
 
             <!--Data Template-->
 
             <DataTemplate x:Key="ProductItemTemplate">
                 <ViewCell>
-                    <Grid Padding="8">
+                    <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -65,7 +66,13 @@
 
             <DataTemplate x:Key="CustomersItemTemplate">
                 <ViewCell>
-                    <Grid Padding="8">
+                    <Grid>
+
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding CustomerDetailCommand}"></TapGestureRecognizer>
+                        </Grid.GestureRecognizers>
+
+
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>

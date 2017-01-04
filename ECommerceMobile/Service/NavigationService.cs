@@ -56,6 +56,9 @@ namespace ECommerceMobile.Service
                 case "UsersPage":
                     await App.Navigator.PushAsync(new UsersPage());
                     break;
+                case "CustomerDetailPage":
+                    await App.Navigator.PushAsync(new CustomerDetailPage());
+                    break;
                 case "LogOutPape":
                     LogOut();
                     break;

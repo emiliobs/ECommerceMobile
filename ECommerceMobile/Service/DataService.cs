@@ -96,26 +96,30 @@ namespace ECommerceMobile.Service
             }
         }
 
-        public void SaveProducts(List<Product> productasList)
-        {
-            using (var da = new DataAccess())
-            {
-                //primero borro los datos viejos:
-                var oldProducts = da.GetList<Product>(false);
 
-                foreach (var product in oldProducts)
-                {
-                    da.Delete(product);
-                }
+        //Lo voy a utilizar como un generico:
+        //public void SaveProducts(List<Product> productasList)
+        //{
+        //    using (var da = new DataAccess())
+        //    {
+        //        //primero borro los datos viejos:
+        //        var oldProducts = da.GetList<Product>(false);
 
-                //aqui guardo los produxtos nuevos en la bd:
-                foreach (var product in productasList)
-                {
-                    da.Insert(product);
-                }
+        //        foreach (var product in oldProducts)
+        //        {
+        //            da.Delete(product);
+        //        }
 
-            }
-        }
+        //        //aqui guardo los produxtos nuevos en la bd:
+        //        foreach (var product in productasList)
+        //        {
+        //            da.Insert(product);
+        //        }
+
+        //    }
+        //}
+
+        //Método normal:
 
         public List<Product> GetProducts(string filter)
         {
@@ -123,19 +127,24 @@ namespace ECommerceMobile.Service
             {
                 return
                     da.GetList<Product>(true)
-                        .Where(p => p.Description.ToUpper().Contains(filter.ToUpper()))
+                        .Where(p => p.Description.ToUpper()
+                        .Contains(filter.ToUpper()))
                         .OrderBy(p => p.Description)
                         .ToList();
             }
         }
 
-        public List<Product> GetProducts()
-        {
-            using (var da = new DataAccess())
-            {
-                return da.GetList<Product>(true).OrderBy(p => p.Description).ToList();
-            }
-        }
+
+
+
+        //Lo elimino por que voy a usar el método como generico:
+        //public List<Product> GetProducts()
+        //{
+        //    using (var da = new DataAccess())
+        //    {
+        //        return da.GetList<Product>(true).OrderBy(p => p.Description).ToList();
+        //    }
+        //}
 
         public Response Login(string email, string password)
         {
@@ -201,32 +210,65 @@ namespace ECommerceMobile.Service
             }
         }
 
-        public void SaveCustomers(List<Customer> customersList)
+        //public void SaveCustomers(List<Customer> customersList)
+        //{
+        //    using (var da = new DataAccess())
+        //    {
+        //        //primero borro los datos viejos:
+        //        var oldCustomes = da.GetList<Customer>(false);
+
+        //        foreach (var customer in oldCustomes)
+        //        {
+        //            da.Delete(customer);
+        //        }
+
+        //        //aqui guardo los produxtos nuevos en la bd:
+        //        foreach (var customer in customersList)
+        //        {
+        //            da.Insert(customer);
+        //        }
+
+        //    }
+        //}
+
+        //Método Generico:
+        public void Save<T>(List<T> list) where  T : class
         {
             using (var da = new DataAccess())
             {
                 //primero borro los datos viejos:
-                var oldCustomes = da.GetList<Customer>(false);
+                var oldRecords= da.GetList<T>(false);
 
-                foreach (var customer in oldCustomes)
+                foreach (var record in oldRecords)
                 {
-                    da.Delete(customer);
+                    da.Delete(record);
                 }
 
                 //aqui guardo los produxtos nuevos en la bd:
-                foreach (var customer in customersList)
+                foreach (var record in list)
                 {
-                    da.Insert(customer);
+                    da.Insert(record);
                 }
 
             }
         }
 
-        public List<Customer> GetCustomers()
+        //Método normal
+        //public List<Customer> GetCustomers()
+        //{
+        //    using (var da = new DataAccess())
+        //    {
+        //        return da.GetList<Customer>(true).OrderBy(c => c.FirstName).ThenBy(c => c.LastName).ToList();
+        //    }
+        //}
+
+        //Método Generico
+        public List<T> Get<T>(bool withChildren) where T : class
         {
             using (var da = new DataAccess())
             {
-                return da.GetList<Customer>(true).OrderBy(c => c.FirstName).ThenBy(c => c.LastName).ToList();
+                //ya no lo puedo ordenar, que lo ordenes quien lo use:
+                return da.GetList<T>(withChildren).ToList();
             }
         }
     }

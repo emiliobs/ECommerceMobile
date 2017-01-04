@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using ECommerceMobile.Models;
@@ -193,7 +194,7 @@ namespace ECommerceMobile.ViewModel
 
         private void LoadLocalCustomers()
         {
-            var customersList = dataService.GetCustomers();
+            var customersList = dataService.Get<Customer>(true);
 
 
             //Metodo para recargar losdatos, para evitar copiar y pegar:
@@ -215,13 +216,13 @@ namespace ECommerceMobile.ViewModel
 
                 //como hay conexion los gusdo en la db
                 //para luego ustilizar una 2da instacia y  utilizar los datos si no hay conexion:
-                dataService.SaveCustomers(customersList);
+                dataService.Save(customersList);
 
 
             }
             else
             {
-                customersList = dataService.GetCustomers();
+                customersList = dataService.Get<Customer>(true);
             }
 
             ReloadCustomers(customersList);
@@ -234,7 +235,7 @@ namespace ECommerceMobile.ViewModel
 
 
             //Aqui hago la translación del objeto(paso todo de la api a las propiesdes de la clase ProductItemViewMOdel(en memoria)
-            foreach (var customer in customersList)
+            foreach (var customer in customersList.OrderBy(c => c.FirstName).ThenBy(c=>c.LastName))
             {
                 Customers.Add(new CustomerItemView()
                 {
@@ -262,7 +263,7 @@ namespace ECommerceMobile.ViewModel
 
         private void LoadLocalProduct()
         {
-            var productsList = dataService.GetProducts();
+            var productsList = dataService.Get<Product>(true);
 
 
             //Metodo para recargar losdatos, para evitar copiar y pegar:
@@ -276,7 +277,7 @@ namespace ECommerceMobile.ViewModel
 
 
             //Aqui hago la translación del objeto(paso todo de la api a las propiesdes de la clase ProductItemViewMOdel(en memoria)
-            foreach (var product in productsList)
+            foreach (var product in productsList.OrderBy(p=>p.Description))
             {
                 Products.Add(new ProductsItemViewMOdel()
                 {
@@ -313,13 +314,13 @@ namespace ECommerceMobile.ViewModel
 
                 //como hay conexion los gusdo en la db
                 //para luego ustilizar una 2da instacia y  utilizar los datos si no hay conexion:
-                dataService.SaveProducts(productasList);
+                dataService.Save(productasList);
 
 
             }
             else
             {
-                productasList = dataService.GetProducts();
+                productasList = dataService.Get<Product>(true);
             }
 
             ReloadProducts(productasList);

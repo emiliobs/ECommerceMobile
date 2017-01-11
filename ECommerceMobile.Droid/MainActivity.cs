@@ -20,6 +20,8 @@ namespace ECommerceMobile.Droid
             base.OnCreate(bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
+            //lo agrego para que funcione el googlemap:
+            Xamarin.FormsMaps.Init(this, bundle);
             LoadApplication(new App());
         }
     }

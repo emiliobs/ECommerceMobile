@@ -66,6 +66,9 @@ namespace ECommerceMobile.WinPhone
 
                 Xamarin.Forms.Forms.Init(e);
 
+                Xamarin.FormsMaps.Init("AIzaSyBHoKlBW-IGtHlag9icXw9cJRIyEoutMoY");
+
+
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
                     // TODO: Load state from previously suspended application

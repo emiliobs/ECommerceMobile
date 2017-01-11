@@ -8,6 +8,7 @@ using System.Windows.Input;
 using ECommerceMobile.Models;
 using ECommerceMobile.Service;
 using GalaSoft.MvvmLight.Command;
+using Xamarin.Forms.Maps;
 
 namespace ECommerceMobile.ViewModel
 {
@@ -32,6 +33,8 @@ namespace ECommerceMobile.ViewModel
         public ObservableCollection<MenuItemViewModel> Menu { get; set; }
         public ObservableCollection<ProductsItemViewMOdel> Products { get; set; }
         public ObservableCollection<CustomerItemView> Customers { get; set; }
+
+        public ObservableCollection<Pin> Pins { get; set; }
 
         public LoginViewModel NewLogin { get; set; }
 
@@ -106,6 +109,7 @@ namespace ECommerceMobile.ViewModel
             Menu = new ObservableCollection<MenuItemViewModel>();
             Products = new ObservableCollection<ProductsItemViewMOdel>();
             Customers = new ObservableCollection<CustomerItemView>( );
+            Pins = new ObservableCollection<Pin>();
 
 
            //Instance service
@@ -430,6 +434,44 @@ namespace ECommerceMobile.ViewModel
         public void SetCurrentCustomer(CustomerItemView customerItemViewModel)
         {
             CurrentCustomer = customerItemViewModel;
+        }
+
+
+
+        public void GetGeolocation()
+        {
+            var position1 = new Position(40.4893538421231, -3.6827461557);
+            var pin1 = new Pin()
+            {
+
+                Type = PinType.Place,
+                Position = position1,
+                Label = "Pin1",
+                Address = "Prueba Pin1"
+            };
+
+            Pins.Add(pin1);
+
+            var position2 = new Position(40.4985935428152, -3.3694639211171307);
+            var pin2 = new Pin
+            {
+                Type = PinType.Place,
+                Position = position2,
+                Label = "Pin2",
+                Address = "prueba pin2"
+            };
+            Pins.Add(pin2);
+
+            var position3 = new Position(40.502835798508876, -3.862818718480412);
+            var pin3 = new Pin
+            {
+                Type = PinType.Place,
+                Position = position3,
+                Label = "Pin3",
+                Address = "prueba pin3"
+            };
+            Pins.Add(pin3);
+
         }
 
         #endregion

@@ -45,6 +45,7 @@
     <Compile Include="Interface\INetworkConnection.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\City.cs" />
+    <Compile Include="Models\CityItemViewModel.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\CompanyCustomer.cs" />
     <Compile Include="Models\Customer.cs" />

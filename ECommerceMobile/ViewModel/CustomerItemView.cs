@@ -11,7 +11,7 @@ using GalaSoft.MvvmLight.Command;
 
 namespace ECommerceMobile.ViewModel
 {
-   public class CustomerItemView: Customer
+    public class CustomerItemView : Customer
     {
 
         #region Attributes
@@ -27,6 +27,7 @@ namespace ECommerceMobile.ViewModel
         #region Properties
 
         public ObservableCollection<DepartmentItemViewModel> Departments { get; set; }
+        public ObservableCollection<City> Cities { get; set; }
 
         #endregion
 
@@ -42,10 +43,11 @@ namespace ECommerceMobile.ViewModel
 
             //Observable collection:
             Departments = new ObservableCollection<DepartmentItemViewModel>();
-
+            Cities = new ObservableCollection<City>();
 
             //LoadData:
             LoadDepartments();
+            LoadCities();
         }
 
 
@@ -60,6 +62,7 @@ namespace ECommerceMobile.ViewModel
                 return new RelayCommand(customerDetail);
             }
         }
+
 
 
 
@@ -98,6 +101,44 @@ namespace ECommerceMobile.ViewModel
         #endregion
 
         #region Methods
+
+        private async void LoadCities()
+        {
+            var cities = new List<City>();
+
+            if (netService.IsConnected())
+            {
+                cities = await apiService.Get<City>("Cities");
+
+                dataService.Save(cities);
+            }
+            else
+            {
+                cities = dataService.Get<City>(true);
+            }
+
+            ReloadCities(cities);
+        }
+
+        private void ReloadCities(List<City> cities)
+        {
+            Cities.Clear();
+
+            foreach (var city in cities.OrderBy(c => c.Name))
+            {
+                Cities.Add(new CityItemViewModel()
+                {
+                    CityId = city.CityId,
+                    Customers = city.Customers,
+                    Name = city.Name,
+                    DepartmentId = city.DepartmentId,
+                    Department = city.Department
+
+
+                });
+            }
+        }
+
         private async void LoadDepartments()
         {
             var departments = new List<Department>();
@@ -120,7 +161,7 @@ namespace ECommerceMobile.ViewModel
         {
             Departments.Clear();
 
-            foreach (var department in departments.OrderBy(d=>d.Name))
+            foreach (var department in departments.OrderBy(d => d.Name))
             {
                 Departments.Add(new DepartmentItemViewModel()
                 {

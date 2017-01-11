@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,16 @@ namespace ECommerceMobile.ViewModel
         #region Attributes
 
         private NavigationService navigationService;
+        private NetService netService;
+        private ApiService apiService;
+        private DataService dataService;
+
+        #endregion
+
+
+        #region Properties
+
+        public ObservableCollection<DepartmentItemViewModel> Departments { get; set; }
 
         #endregion
 
@@ -23,8 +34,21 @@ namespace ECommerceMobile.ViewModel
 
         public CustomerItemView()
         {
+            //servicios
             navigationService = new NavigationService();
+            netService = new NetService();
+            dataService = new DataService();
+            apiService = new ApiService();
+
+            //Observable collection:
+            Departments = new ObservableCollection<DepartmentItemViewModel>();
+
+
+            //LoadData:
+            LoadDepartments();
         }
+
+
 
         #endregion
 
@@ -36,6 +60,8 @@ namespace ECommerceMobile.ViewModel
                 return new RelayCommand(customerDetail);
             }
         }
+
+
 
         private async void customerDetail()
         {
@@ -67,6 +93,43 @@ namespace ECommerceMobile.ViewModel
 
             await navigationService.Navigate("CustomerDetailPage");
 
+        }
+
+        #endregion
+
+        #region Methods
+        private async void LoadDepartments()
+        {
+            var departments = new List<Department>();
+
+            if (netService.IsConnected())
+            {
+                departments = await apiService.Get<Department>("Departments");
+
+                dataService.Save(departments);
+            }
+            else
+            {
+                departments = dataService.Get<Department>(true);
+            }
+
+            ReloadDeparments(departments);
+        }
+
+        private void ReloadDeparments(List<Department> departments)
+        {
+            Departments.Clear();
+
+            foreach (var department in departments.OrderBy(d=>d.Name))
+            {
+                Departments.Add(new DepartmentItemViewModel()
+                {
+                    Cities = department.Cities,
+                    Customers = department.Customers,
+                    DepartmentId = department.DepartmentId,
+                    Name = department.Name
+                });
+            }
         }
 
         #endregion

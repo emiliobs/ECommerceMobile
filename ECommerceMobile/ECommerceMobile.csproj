@@ -66,6 +66,7 @@
     <Compile Include="Service\NavigationService.cs" />
     <Compile Include="Service\NetService.cs" />
     <Compile Include="ViewModel\CustomerItemView.cs" />
+    <Compile Include="ViewModel\DepartmentItemViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\MenuItemViewModel.cs" />

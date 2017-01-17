@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using ECommerceMobile.Models;
 using ECommerceMobile.Service;
@@ -21,6 +22,8 @@ namespace ECommerceMobile.ViewModel
         public ApiService apiService;
 
         public NetService netService;
+
+        public NavigationService navigationService;
 
         //aqui ligo el public event PropertyChangedEventHandler PropertyChanged:
         private string productsFilter;
@@ -41,6 +44,8 @@ namespace ECommerceMobile.ViewModel
         public UserViewModel UserLoged { get; set; }
 
         public CustomerItemView CurrentCustomer { get; set; }
+
+        public CustomerItemView NewCustomer { get; set; }
 
 
         public string CustomersFilter
@@ -116,6 +121,7 @@ namespace ECommerceMobile.ViewModel
             dataService = new DataService();
             apiService = new ApiService();
             netService = new NetService();
+            navigationService = new NavigationService();
 
             //Create views
             //Solo neceisto el login solo al entrar al servicio:
@@ -124,6 +130,7 @@ namespace ECommerceMobile.ViewModel
             UserLoged = new UserViewModel();
 
             CurrentCustomer = new CustomerItemView();
+            NewCustomer = new CustomerItemView();
 
 
             //load data:
@@ -169,6 +176,17 @@ namespace ECommerceMobile.ViewModel
         #region Commands
 
 
+        public ICommand NewCustomerCommand
+        {
+            get { return  new RelayCommand(CustomerNew);}
+        }
+
+        private async void CustomerNew()
+        {
+            await navigationService.Navigate("NewCustomerPage");
+        }
+
+
 
 
         public ICommand searchProductCommand
@@ -195,6 +213,7 @@ namespace ECommerceMobile.ViewModel
 
 
 
+
         private void SearchCustomer()
         {
             //Aqui traigo los productos:
@@ -206,6 +225,8 @@ namespace ECommerceMobile.ViewModel
         #endregion
 
         #region Methods
+
+
 
         private void LoadLocalCustomers()
         {
@@ -438,40 +459,20 @@ namespace ECommerceMobile.ViewModel
 
 
 
-        public void GetGeolocation()
+        public void SetGeolocation(string name, string address, double latitude, double longitud)
         {
-            var position1 = new Position(40.4893538421231, -3.6827461557);
-            var pin1 = new Pin()
+            var position = new Position(latitude, longitud);
+            var pin = new Pin()
             {
 
                 Type = PinType.Place,
-                Position = position1,
-                Label = "Pin1",
-                Address = "Prueba Pin1"
+                Position = position,
+                Label  = name,
+                Address = address
             };
 
-            Pins.Add(pin1);
 
-            var position2 = new Position(40.4985935428152, -3.3694639211171307);
-            var pin2 = new Pin
-            {
-                Type = PinType.Place,
-                Position = position2,
-                Label = "Pin2",
-                Address = "prueba pin2"
-            };
-            Pins.Add(pin2);
-
-            var position3 = new Position(40.502835798508876, -3.862818718480412);
-            var pin3 = new Pin
-            {
-                Type = PinType.Place,
-                Position = position3,
-                Label = "Pin3",
-                Address = "prueba pin3"
-            };
-            Pins.Add(pin3);
-
+            Pins.Add(pin);
         }
 
         #endregion

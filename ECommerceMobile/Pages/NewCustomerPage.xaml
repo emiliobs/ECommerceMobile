@@ -1,60 +1,50 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ECommerceMobile.Pages.NewCustomerPage"
              xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
-             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
              xmlns:control="clr-namespace:ECommerceMobile.Controls;assembly=ECommerceMobile"
-             x:Class="ECommerceMobile.Pages.CustomerDetailPage"
-             Title="Detalles de Cliente"
+             Title="Nuevo Cliente."
              BackgroundColor="{StaticResource BackgroundColor}"
              BindingContext="{Binding Main, Source={StaticResource Locator}}">
 
-    <ScrollView BindingContext="{Binding CurrentCustomer}">
+    <ScrollView BindingContext="{Binding NewCustomer}">
+
         <StackLayout
       Padding="8">
-            <StackLayout
-        Orientation="Horizontal">
 
-                <controls:CircleImage
-          Source="{Binding PhotoFullPath}"
+            <StackLayout>
+
+
+                    <controls:CircleImage
+          Source="{Binding ImageSource}"
           Aspect="AspectFill"
-          WidthRequest="100"
-          HeightRequest="100"
-          VerticalOptions="Center"
-          HorizontalOptions="Start">
+          WidthRequest="200"
+          HeightRequest="200">
                 </controls:CircleImage>
 
-                <Label
-          Text="{Binding FullName}"
-          TextColor="{StaticResource FontColor}"
-          FontSize="20"
-          FontAttributes="Bold"
-          VerticalOptions="Center"
-          HorizontalOptions="CenterAndExpand">
-                </Label>
+                </StackLayout>
 
-            </StackLayout>
-            <StackLayout
-        Orientation="Horizontal">
-                <Label
+                <StackLayout>
+
+                    <Label
           Text="Correo:"
           TextColor="{StaticResource FontColor}"
           VerticalOptions="Center"
           HorizontalOptions="Start">
-                </Label>
+                    </Label>
 
-                <Entry
+                    <Entry
           Placeholder="Correo"
           Text="{Binding UserName, Mode=TwoWay}"
           Keyboard="Email"
           VerticalOptions="Center"
           HorizontalOptions="FillAndExpand">
-                </Entry>
+                    </Entry>
+                </StackLayout>
 
-            </StackLayout>
+            <StackLayout>
 
-            <StackLayout
-        Orientation="Horizontal">
                 <Label
           Text="Nombres:"
           TextColor="{StaticResource FontColor}"
@@ -70,8 +60,8 @@
                 </Entry>
 
             </StackLayout>
-            <StackLayout
-        Orientation="Horizontal">
+
+            <StackLayout>
 
                 <Label
           Text="Apellidos:"
@@ -87,8 +77,10 @@
           HorizontalOptions="FillAndExpand">
                 </Entry>
             </StackLayout>
-            <StackLayout
-        Orientation="Horizontal">
+
+            <StackLayout>
+
+
                 <Label
           Text="Teléfono:"
           TextColor="{StaticResource FontColor}"
@@ -102,10 +94,11 @@
           VerticalOptions="Center"
           HorizontalOptions="FillAndExpand">
                 </Entry>
+
             </StackLayout>
 
-            <StackLayout
-        Orientation="Horizontal">
+            <StackLayout>
+
 
                 <Label
           Text="Dirección:"
@@ -121,8 +114,9 @@
           HorizontalOptions="FillAndExpand">
                 </Entry>
             </StackLayout>
-            <StackLayout
-        Orientation="Horizontal">
+
+            <StackLayout>
+
 
                 <Label
           Text="Departamento:"
@@ -143,8 +137,8 @@
 
             </StackLayout>
 
-            <StackLayout
-        Orientation="Horizontal">
+            <StackLayout>
+
 
                 <Label
           Text="Ciudad:"
@@ -165,75 +159,33 @@
 
             </StackLayout>
 
-            <StackLayout
-        Orientation="Horizontal">
-                <Label
-          Text="Latidud:"
-          TextColor="{StaticResource FontColor}"
-          VerticalOptions="Center"
-          HorizontalOptions="Start">
-                </Label>
-                <Entry
-          Placeholder="Latitud"
-          IsEnabled="false"
-          Text="{Binding Latitude, Mode=TwoWay}"
-          VerticalOptions="Center"
-          HorizontalOptions="FillAndExpand">
-                </Entry>
-                <Label
-          Text="Longitud:"
-          TextColor="{StaticResource FontColor}"
-          VerticalOptions="Center"
-          HorizontalOptions="Start">
-                </Label>
-
-                <Entry
-          Placeholder="Longitud"
-          IsEnabled="false"
-          Text="{Binding Longitude, Mode=TwoWay}"
-          VerticalOptions="Center"
-          HorizontalOptions="FillAndExpand">
-                </Entry>
-
-            </StackLayout>
 
             <StackLayout
         Orientation="Horizontal">
 
                 <Button
-          Text="Localización"
+          Text="Guardar."
+                    Command="{Binding NewCustomerCommand}"
           TextColor="{StaticResource BackgroundColor}"
           BackgroundColor="{StaticResource MainColor}"
           VerticalOptions="Center"
           HorizontalOptions="FillAndExpand">
                 </Button>
+
                 <Button
-          Text="Actualizar"
+          Text="Tomar Foto."
+                    Command="{Binding TakePictureCommand}"
           TextColor="{StaticResource BackgroundColor}"
           BackgroundColor="{StaticResource OrangeColor}"
           VerticalOptions="Center"
           HorizontalOptions="FillAndExpand">
                 </Button>
-                <Button
-          Command="{Binding DeleteCustomerCommand}"
-          Text="Borrar"
-          TextColor="{StaticResource BackgroundColor}"
-          BackgroundColor="{StaticResource RedColor}"
-          VerticalOptions="Center"
-          HorizontalOptions="FillAndExpand">
-                </Button>
+
             </StackLayout>
 
-            <maps:Map
-                WidthRequest="320"
-                HeightRequest="200"
-                x:Name="myMap"
-                IsShowingUser="True"
-                MapType="Hybrid">
-
-            </maps:Map>
 
         </StackLayout>
+
     </ScrollView>
 
 

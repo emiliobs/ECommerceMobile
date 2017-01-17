@@ -61,6 +61,9 @@
     <Compile Include="Pages\CustomerDetailPage.xaml.cs">
       <DependentUpon>CustomerDetailPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\NewCustomerPage.xaml.cs">
+      <DependentUpon>NewCustomerPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Service\ApiService.cs" />
     <Compile Include="Service\DataService.cs" />
     <Compile Include="Service\DialogService.cs" />
@@ -261,6 +264,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Extras\DER Ecommerce.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\NewCustomerPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

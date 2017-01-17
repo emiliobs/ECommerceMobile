@@ -24,5 +24,10 @@
 
     </StackLayout>
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="ic_newCustomer.png" Command="{Binding NewCustomerCommand}">
+
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
 
 </ContentPage>

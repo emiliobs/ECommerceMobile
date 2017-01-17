@@ -20,7 +20,14 @@ namespace ECommerceMobile.Pages
 
             //GoogleMap:
             var mainViewModel = MainViewModel.GetInstance();
-            mainViewModel.GetGeolocation();
+
+            mainViewModel.SetGeolocation(
+
+                mainViewModel.CurrentCustomer.FullName,
+                mainViewModel.CurrentCustomer.Address,
+                mainViewModel.CurrentCustomer.Latitude,
+                mainViewModel.CurrentCustomer.Longitude
+                );
 
             foreach (var pin in mainViewModel.Pins)
             {

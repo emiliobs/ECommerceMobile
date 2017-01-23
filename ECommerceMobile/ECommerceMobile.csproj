@@ -38,6 +38,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Clasess\Utilities.cs" />
     <Compile Include="Controls\BindablePicker.cs" />
     <Compile Include="Data\DataAccess.cs" />
     <Compile Include="Infrastructure\InstanceLocator.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Service\ApiService.cs" />
     <Compile Include="Service\DataService.cs" />
     <Compile Include="Service\DialogService.cs" />
+    <Compile Include="Service\GeolocatorService.cs" />
     <Compile Include="Service\NavigationService.cs" />
     <Compile Include="Service\NetService.cs" />
     <Compile Include="ViewModel\CustomerItemView.cs" />

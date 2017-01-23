@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using ECommerceMobile.Clasess;
 using ECommerceMobile.Models;
 using ECommerceMobile.Service;
 using GalaSoft.MvvmLight.Command;
@@ -26,6 +27,9 @@ namespace ECommerceMobile.ViewModel
         private DataService dataService;
         private DialogService dialogService;
         private ImageSource imageSource;
+        private GeolocatorService geolocatorService;
+        private bool isRunning;
+
 
         #endregion
 
@@ -49,6 +53,20 @@ namespace ECommerceMobile.ViewModel
             get { return imageSource; }
         }
 
+        public bool IsRunning
+        {
+            set
+            {
+                if (isRunning != value)
+                {
+                    isRunning = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsRunning"));
+                }
+            }
+
+            get { return isRunning; }
+        }
+
         #endregion
 
         #region Constructor
@@ -61,6 +79,7 @@ namespace ECommerceMobile.ViewModel
             dataService = new DataService();
             apiService = new ApiService();
             dialogService = new DialogService();
+            geolocatorService = new GeolocatorService();
 
             //Observable collection:
             Departments = new ObservableCollection<DepartmentItemViewModel>();
@@ -80,6 +99,97 @@ namespace ECommerceMobile.ViewModel
 
         #region Commands
 
+        public ICommand NewCustomerCommand
+        {
+            get { return  new RelayCommand(NewCustomer);}
+        }
+
+        private async void NewCustomer()
+        {
+            //validar los campos:
+
+
+            if (!Utilities.IsValidEmail(UserName))
+            {
+                await dialogService.ShowMessage("Error", "Debe ingresar un correo valido.");
+
+                return;
+            }
+
+            if (string.IsNullOrEmpty(FirstName))
+            {
+                await dialogService.ShowMessage("Error", "Debe ingrsar nombres.");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(LastName))
+            {
+                await dialogService.ShowMessage("Error", "Debe ingrsar un apellidos.");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(Phone))
+            {
+                await dialogService.ShowMessage("Error", "Debe ingrsar un teléfono.");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(Address))
+            {
+                await dialogService.ShowMessage("Error", "Debe ingrsar un dirección.");
+                return;
+            }
+
+            if (DepartmentId == 0)
+            {
+                await dialogService.ShowMessage("Error", "Debe ingrsar un departamento.");
+                return;
+            }
+
+            if (CityId == 0)
+            {
+                await dialogService.ShowMessage("Error", "Debe ingrsar una ciudad.");
+                return;
+            }
+
+            IsRunning = true;
+            await geolocatorService.getLocation();
+
+            var customer = new Customer()
+            {
+               CityId = CityId,
+                DepartmentId = DepartmentId,
+                UserName = UserName,
+                FirstName = FirstName,
+                LastName = LastName,
+                Address = Address,
+                IsUpdated = IsUpdated,
+                Latitude = geolocatorService.Latitude,
+                Longitude = geolocatorService.Longitud,
+                Phone = Phone,
+
+
+            };
+
+            var response = await apiService.NewCustomer(customer);
+            IsRunning = false;
+
+            //aqui pregunso si genoro o no el nuevo cliente
+
+            if (!response.IsSuccess)
+            {
+                await dialogService.ShowMessage("Error", response.Message);
+                return;
+            }
+
+            await dialogService.ShowMessage("Confirmación", response.Message);
+
+            //aqui no envia ala pagina atras, osea la pagina index:
+            await navigationService.Back();
+
+        }
+
+
         public ICommand TakePictureCommand
         {
             get { return new RelayCommand(TakePicture);}
@@ -87,6 +197,7 @@ namespace ECommerceMobile.ViewModel
 
         private async void TakePicture()
         {
+            isRunning = true;
 
             await CrossMedia.Current.Initialize();
 
@@ -113,10 +224,12 @@ namespace ECommerceMobile.ViewModel
             }
 
 
-
+            isRunning = false;
 
 
         }
+
+
 
         public ICommand CustomerDetailCommand
         {

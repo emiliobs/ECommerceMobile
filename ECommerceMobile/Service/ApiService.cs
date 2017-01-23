@@ -105,9 +105,6 @@ namespace ECommerceMobile.Service
         //    }
         //}
 
-        #endregion
-
-
         //Método Normal:
         //public async Task<List<Customer>> GetCustomers()
         //{
@@ -169,5 +166,58 @@ namespace ECommerceMobile.Service
                 return null;
             }
         }
+
+
+
+        public async Task<Response> NewCustomer(Customer customer)
+        {
+            try
+            {
+
+                var request = JsonConvert.SerializeObject(customer);
+                var content = new StringContent(request, Encoding.UTF8, "application/json");
+                var client = new HttpClient();
+                client.BaseAddress = new Uri("http://zulu-software.com");
+                var url = "/ECommerce/api/Customers";
+                var response = await client.PostAsync(url, content);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response()
+                    {
+
+                        IsSuccess = false,
+                        Message = response.StatusCode.ToString()
+                    };
+                }
+
+                var result = await response.Content.ReadAsStringAsync();
+                var newCustomer = JsonConvert.DeserializeObject<Customer>(result);
+
+                return new Response()
+                {
+                    IsSuccess = true,
+                    Message = "Cliente creado OK.",
+                    Result = newCustomer
+                };
+
+            }
+            catch (Exception ex)
+            {
+
+                return  new Response()
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
+        #endregion
+
+
+
+
+
     }
 }

@@ -158,6 +158,9 @@
 
             </StackLayout>
 
+        <ActivityIndicator IsRunning="{Binding IsRunning, Mode=TwoWay}">
+
+        </ActivityIndicator>
 
             <StackLayout
         Orientation="Horizontal">

@@ -104,6 +104,11 @@ namespace ECommerceMobile.Service
             return App.CurrentUser;
         }
 
+        public async Task Back()
+        {
+            await App.Navigator.PopAsync();
+        }
+
         #endregion
 
 

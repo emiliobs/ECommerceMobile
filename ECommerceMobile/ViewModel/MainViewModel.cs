@@ -19,11 +19,13 @@ namespace ECommerceMobile.ViewModel
 
         private DataService dataService;
 
-        public ApiService apiService;
+        private ApiService apiService;
 
-        public NetService netService;
+        private NetService netService;
 
-        public NavigationService navigationService;
+        private NavigationService navigationService;
+
+        private bool isRefreshingCustomers = false;
 
         //aqui ligo el public event PropertyChangedEventHandler PropertyChanged:
         private string productsFilter;
@@ -46,6 +48,21 @@ namespace ECommerceMobile.ViewModel
         public CustomerItemView CurrentCustomer { get; set; }
 
         public CustomerItemView NewCustomer { get; set; }
+
+        public bool IsRefreshingCustomers
+        {
+
+            set
+            {
+                if (isRefreshingCustomers != value)
+                {
+                    isRefreshingCustomers = value;
+
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsRefreshingCustomers"));
+                }
+            }
+            get { return isRefreshingCustomers; }
+        }
 
 
         public string CustomersFilter
@@ -174,6 +191,19 @@ namespace ECommerceMobile.ViewModel
 
 
         #region Commands
+
+        public ICommand RefreshCustomersCommand
+        {
+            get { return  new RelayCommand(RefreshCustomers);}
+        }
+
+        private async void RefreshCustomers()
+        {
+          var customer = await apiService.Get<Customer>("Customers");
+
+            ReloadCustomers(customer);
+            IsRefreshingCustomers = false;
+        }
 
 
         public ICommand NewCustomerCommand

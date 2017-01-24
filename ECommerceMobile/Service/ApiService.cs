@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using ECommerceMobile.Clasess;
 using ECommerceMobile.Models;
 using Newtonsoft.Json;
+using Xamarin.Forms;
 
 namespace ECommerceMobile.Service
 {
@@ -215,9 +218,110 @@ namespace ECommerceMobile.Service
 
         #endregion
 
+        public async  Task<Response> SetPhoto(int CustomerId, Stream stream)
+        {
+            try
+            {
+                var array = ReadFully(stream);
 
+                var photoRequest = new PhotoRequest
+                {
+                    Id = CustomerId,
+                    Array = array
+                };
 
+                var request = JsonConvert.SerializeObject(photoRequest);
+                var body = new StringContent(request, Encoding.UTF8, "application/json");
+                var client = new  HttpClient();
+                client.BaseAddress = new Uri("http://zulu-software.com");
+                var url = "/ECommerce/api/Customers/SetPhoto";
+                var response = await client.PostAsync(url, body);
 
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response()
+                    {
+                        IsSuccess = false,
+                        Message = response.StatusCode.ToString()
+                    };
+                }
 
+                return new Response()
+                {
+                    IsSuccess = true,
+                    Message = "Foto asignada OK."
+                };
+            }
+            catch (Exception ex)
+            {
+               return  new Response()
+               {
+                   IsSuccess = false,
+                   Message = ex.Message
+               };
+            }
+        }
+
+        private static  byte[] ReadFully(Stream input)
+        {
+            byte[] buffer = new byte[16 * 1024];
+
+            using (MemoryStream ms = new MemoryStream( ))
+            {
+                int read;
+
+                while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    ms.Write(buffer, 0, read);
+                }
+
+                return ms.ToArray();
+            }
+
+        }
+
+        public async Task<Response> UpdateCustomer(Customer customer)
+        {
+            try
+            {
+
+                var request = JsonConvert.SerializeObject(customer);
+                var content = new StringContent(request, Encoding.UTF8, "application/json");
+                var client = new HttpClient();
+                client.BaseAddress = new Uri("http://zulu-software.com");
+                var url = $"/ECommerce/api/Customers/{customer.CustomerId}";
+                var response = await client.PutAsync(url, content);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response()
+                    {
+
+                        IsSuccess = false,
+                        Message = response.StatusCode.ToString()
+                    };
+                }
+
+                var result = await response.Content.ReadAsStringAsync();
+                var newCustomer = JsonConvert.DeserializeObject<Customer>(result);
+
+                return new Response()
+                {
+                    IsSuccess = true,
+                    Message = "Cliente actualizado OK.",
+                    Result = newCustomer
+                };
+
+            }
+            catch (Exception ex)
+            {
+
+                return new Response()
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
     }
 }

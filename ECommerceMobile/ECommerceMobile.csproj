@@ -38,6 +38,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Clasess\PhotoRequest.cs" />
     <Compile Include="Clasess\Utilities.cs" />
     <Compile Include="Controls\BindablePicker.cs" />
     <Compile Include="Data\DataAccess.cs" />
@@ -52,10 +53,10 @@
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Inventory.cs" />
-    <Compile Include="Models\LoginRequest.cs" />
+    <Compile Include="Clasess\LoginRequest.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Product.cs" />
-    <Compile Include="Models\Response.cs" />
+    <Compile Include="Clasess\Response.cs" />
     <Compile Include="Models\Sale.cs" />
     <Compile Include="Models\Tax.cs" />
     <Compile Include="Models\User.cs" />

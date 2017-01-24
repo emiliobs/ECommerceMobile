@@ -12,6 +12,7 @@ using ECommerceMobile.Models;
 using ECommerceMobile.Service;
 using GalaSoft.MvvmLight.Command;
 using Plugin.Media;
+using Plugin.Media.Abstractions;
 using Xamarin.Forms;
 
 namespace ECommerceMobile.ViewModel
@@ -29,6 +30,7 @@ namespace ECommerceMobile.ViewModel
         private ImageSource imageSource;
         private GeolocatorService geolocatorService;
         private bool isRunning;
+        private MediaFile file;
 
 
         #endregion
@@ -153,6 +155,7 @@ namespace ECommerceMobile.ViewModel
             }
 
             IsRunning = true;
+
             await geolocatorService.getLocation();
 
             var customer = new Customer()
@@ -172,6 +175,19 @@ namespace ECommerceMobile.ViewModel
             };
 
             var response = await apiService.NewCustomer(customer);
+
+            if (response.IsSuccess && file != null)
+            {
+                var newCustomer = (Customer) response.Result;
+                var response2 = await apiService.SetPhoto(newCustomer.CustomerId, file.GetStream());
+                var fileName = $"{newCustomer.CustomerId}.jpg";
+                var folder = "~/Content/Customers";
+                var fullPath = $"({folder}/{fileName})";
+                customer.Photo = fullPath;
+
+               // response = await apiService.UpdateCustomer(customer);
+            }
+
             IsRunning = false;
 
             //aqui pregunso si genoro o no el nuevo cliente
@@ -207,7 +223,7 @@ namespace ECommerceMobile.ViewModel
                 return;
             }
 
-            var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
+            file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
             {
                 Directory = "Photos",
                 Name = "newCustomer.jpg"
@@ -218,7 +234,7 @@ namespace ECommerceMobile.ViewModel
                 ImageSource = ImageSource.FromStream(() =>
                 {
                     var stream = file.GetStream();
-                    file.Dispose();
+                   // file.Dispose();
                     return stream;
                 });
             }

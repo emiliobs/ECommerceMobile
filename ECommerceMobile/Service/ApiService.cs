@@ -280,16 +280,16 @@ namespace ECommerceMobile.Service
 
         }
 
-        public async Task<Response> UpdateCustomer(Customer customer)
+        public async Task<Response> Update<T>(T model, string controller)
         {
             try
             {
 
-                var request = JsonConvert.SerializeObject(customer);
+                var request = JsonConvert.SerializeObject(model);
                 var content = new StringContent(request, Encoding.UTF8, "application/json");
                 var client = new HttpClient();
                 client.BaseAddress = new Uri("http://zulu-software.com");
-                var url = $"/ECommerce/api/Customers/{customer.CustomerId}";
+                var url = $"/ECommerce/api/{controller}/{model.GetHashCode()}";
                 var response = await client.PutAsync(url, content);
 
                 if (!response.IsSuccessStatusCode)
@@ -303,13 +303,13 @@ namespace ECommerceMobile.Service
                 }
 
                 var result = await response.Content.ReadAsStringAsync();
-                var newCustomer = JsonConvert.DeserializeObject<Customer>(result);
+                var newRecord = JsonConvert.DeserializeObject<T>(result);
 
                 return new Response()
                 {
                     IsSuccess = true,
-                    Message = "Cliente actualizado OK.",
-                    Result = newCustomer
+                    Message = "Registo actualizado OK.",
+                    Result = newRecord
                 };
 
             }

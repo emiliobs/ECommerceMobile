@@ -271,6 +271,22 @@ namespace ECommerceMobile.Service
                 return da.GetList<T>(withChildren).ToList();
             }
         }
+
+        public T Find<T>(int pk, bool wintChildren) where T : class
+        {
+            using (var da = new DataAccess())
+            {
+                return da.Find<T>(pk, wintChildren);
+            }
+        }
+
+        public void Update<T>(T model)
+        {
+            using (var db = new DataAccess())
+            {
+               db.Update(model);
+            }
+        }
     }
 
 

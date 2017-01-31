@@ -30,6 +30,8 @@ namespace ECommerceMobile.ViewModel
         private ImageSource imageSource;
         private GeolocatorService geolocatorService;
         private bool isRunning;
+        private double latitude;
+        private double longitude;
         private MediaFile file;
 
 
@@ -41,7 +43,8 @@ namespace ECommerceMobile.ViewModel
         public ObservableCollection<DepartmentItemViewModel> Departments { get; set; }
         public ObservableCollection<City> Cities { get; set; }
 
-        public ImageSource ImageSource {
+        public ImageSource ImageSource
+        {
 
             set
             {
@@ -68,6 +71,42 @@ namespace ECommerceMobile.ViewModel
 
             get { return isRunning; }
         }
+
+        public new double Latitude
+        {
+            set
+            {
+                if (latitude != value)
+                {
+
+                    latitude = value;
+
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Latitude"));
+                }
+            }
+
+            get { return latitude; }
+
+        }
+
+        public new double Longitude
+        {
+            set
+            {
+                if (longitude != value)
+                {
+
+                    longitude = value;
+
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Longitude"));
+                }
+            }
+
+            get { return longitude; }
+
+        }
+
+
 
         #endregion
 
@@ -101,9 +140,47 @@ namespace ECommerceMobile.ViewModel
 
         #region Commands
 
+
+        public ICommand UpdateCustomerLOcationCommand
+        {
+            get { return new RelayCommand(UpdateCustomerLocation); }
+        }
+        public async void UpdateCustomerLocation()
+
+
+        {
+            isRunning = true;
+
+            await geolocatorService.getLocation();
+
+            //var customer = dataService.Find<Customer>(CustomerId, false);
+            var customer = dataService.Get<Customer>(false).FirstOrDefault(c => c.UserName == UserName);
+
+            if (customer != null && geolocatorService.Latitude != 0 && geolocatorService.Longitud != 0)
+            {
+
+                Latitude = geolocatorService.Latitude;
+                Longitude = geolocatorService.Longitud;
+
+                customer.Latitude = geolocatorService.Latitude;
+                customer.Longitude = geolocatorService.Longitud;
+
+                //actualizo dsos locales
+                dataService.Update(customer);
+
+
+                var response = await apiService.Update(customer, "Customers");
+
+
+            }
+
+            isRunning = false;
+
+        }
+
         public ICommand NewCustomerCommand
         {
-            get { return  new RelayCommand(NewCustomer);}
+            get { return new RelayCommand(NewCustomer); }
         }
 
         private async void NewCustomer()
@@ -160,7 +237,7 @@ namespace ECommerceMobile.ViewModel
 
             var customer = new Customer()
             {
-               CityId = CityId,
+                CityId = CityId,
                 DepartmentId = DepartmentId,
                 UserName = UserName,
                 FirstName = FirstName,
@@ -178,14 +255,15 @@ namespace ECommerceMobile.ViewModel
 
             if (response.IsSuccess && file != null)
             {
-                var newCustomer = (Customer) response.Result;
+                var newCustomer = (Customer)response.Result;
                 var response2 = await apiService.SetPhoto(newCustomer.CustomerId, file.GetStream());
                 var fileName = $"{newCustomer.CustomerId}.jpg";
                 var folder = "~/Content/Customers";
                 var fullPath = $"({folder}/{fileName})";
+
                 customer.Photo = fullPath;
 
-               // response = await apiService.UpdateCustomer(customer);
+                var response3 = await apiService.Update(customer, "Customers");
             }
 
             IsRunning = false;
@@ -208,7 +286,7 @@ namespace ECommerceMobile.ViewModel
 
         public ICommand TakePictureCommand
         {
-            get { return new RelayCommand(TakePicture);}
+            get { return new RelayCommand(TakePicture); }
         }
 
         private async void TakePicture()
@@ -234,7 +312,7 @@ namespace ECommerceMobile.ViewModel
                 ImageSource = ImageSource.FromStream(() =>
                 {
                     var stream = file.GetStream();
-                   // file.Dispose();
+                    // file.Dispose();
                     return stream;
                 });
             }
@@ -254,7 +332,6 @@ namespace ECommerceMobile.ViewModel
                 return new RelayCommand(customerDetail);
             }
         }
-
 
 
 
@@ -375,4 +452,4 @@ namespace ECommerceMobile.ViewModel
         #endregion
 
     }
-  }
+}

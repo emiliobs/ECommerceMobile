@@ -197,10 +197,15 @@
 
             </StackLayout>
 
+            <ActivityIndicator IsRunning="{Binding IsRunning, Mode=TwoWay}">
+
+            </ActivityIndicator>
+
             <StackLayout
         Orientation="Horizontal">
 
                 <Button
+                    Command="{Binding UpdateCustomerLOcationCommand}"
           Text="Localización"
           TextColor="{StaticResource BackgroundColor}"
           BackgroundColor="{StaticResource MainColor}"

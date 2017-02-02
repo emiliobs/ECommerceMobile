@@ -127,8 +127,7 @@ namespace ECommerceMobile.Service
             {
                 return
                     da.GetList<Product>(true)
-                        .Where(p => p.Description.ToUpper()
-                        .Contains(filter.ToUpper()))
+                        .Where(p => p.Description.ToUpper().Contains(filter.ToUpper()) || p.BarCode.Contains(filter))
                         .OrderBy(p => p.Description)
                         .ToList();
             }

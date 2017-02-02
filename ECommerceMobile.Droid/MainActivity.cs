@@ -6,6 +6,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using ZXing.Mobile;
 
 namespace ECommerceMobile.Droid
 {
@@ -22,6 +23,7 @@ namespace ECommerceMobile.Droid
             global::Xamarin.Forms.Forms.Init(this, bundle);
             //lo agrego para que funcione el googlemap:
             Xamarin.FormsMaps.Init(this, bundle);
+            MobileBarcodeScanner.Initialize(Application);
             LoadApplication(new App());
         }
     }

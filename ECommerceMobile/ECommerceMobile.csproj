@@ -45,6 +45,7 @@
     <Compile Include="Infrastructure\InstanceLocator.cs" />
     <Compile Include="Interface\IConfig.cs" />
     <Compile Include="Interface\INetworkConnection.cs" />
+    <Compile Include="Interface\IQrCodeScanningService.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\CityItemViewModel.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Service\GeolocatorService.cs" />
     <Compile Include="Service\NavigationService.cs" />
     <Compile Include="Service\NetService.cs" />
+    <Compile Include="Service\ScanService.cs" />
     <Compile Include="ViewModel\CustomerItemView.cs" />
     <Compile Include="ViewModel\DepartmentItemViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
@@ -188,6 +190,18 @@
     </Reference>
     <Reference Include="Xamarin.Forms.Xaml, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Xamarin.Forms.2.3.3.180\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.Xaml.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ZXing.Net.Mobile.Core, Version=2.1.47.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.Net.Mobile.2.1.47\lib\portable-net45+netcore45+wpa81+wp8\ZXing.Net.Mobile.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="zxing.portable, Version=2.1.47.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.Net.Mobile.2.1.47\lib\portable-net45+netcore45+wpa81+wp8\zxing.portable.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ZXingNetMobile, Version=2.1.47.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.Net.Mobile.2.1.47\lib\portable-net45+netcore45+wpa81+wp8\ZXingNetMobile.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

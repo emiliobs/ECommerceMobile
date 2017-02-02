@@ -6,7 +6,8 @@
     "Xam.Plugin.Geolocator": "4.0.0-beta12",
     "Xam.Plugin.Media": "2.6.3.1-beta",
     "Xam.Plugins.Forms.ImageCircle": "1.8.1",
-    "Xamarin.Forms.Maps": "2.3.3.180"
+    "Xamarin.Forms.Maps": "2.3.3.180",
+    "ZXing.Net.Mobile": "2.1.47"
   },
   "frameworks": {
     "uap10.0": {}

@@ -6,9 +6,11 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using ECommerceMobile.Interface;
 using ECommerceMobile.Models;
 using ECommerceMobile.Service;
 using GalaSoft.MvvmLight.Command;
+using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
 namespace ECommerceMobile.ViewModel
@@ -24,6 +26,8 @@ namespace ECommerceMobile.ViewModel
         private NetService netService;
 
         private NavigationService navigationService;
+
+        private ScanService scanService;
 
         private bool isRefreshingCustomers = false;
 
@@ -139,6 +143,7 @@ namespace ECommerceMobile.ViewModel
             apiService = new ApiService();
             netService = new NetService();
             navigationService = new NavigationService();
+            scanService = new ScanService();
 
             //Create views
             //Solo neceisto el login solo al entrar al servicio:
@@ -191,6 +196,18 @@ namespace ECommerceMobile.ViewModel
 
 
         #region Commands
+
+        public ICommand SearchScanProductCommand
+        {
+            get { return new RelayCommand(SearchScanProduct);}
+        }
+
+        private async void SearchScanProduct()
+        {
+            productsFilter = await scanService.Scanner();
+
+            SearchProduct();
+        }
 
         public ICommand RefreshCustomersCommand
         {

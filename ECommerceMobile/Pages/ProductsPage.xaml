@@ -13,7 +13,14 @@
                    SearchCommand="{Binding searchProductCommand}">
 
         </SearchBar>
+        <Image Source="barcode.png"
+               HorizontalOptions="End"
+               VerticalOptions="Center">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding SearchScanProductCommand}"></TapGestureRecognizer>
+            </Image.GestureRecognizers>
 
+        </Image>
 
    <ListView
              ItemTemplate="{StaticResource ProductItemTemplate}"
